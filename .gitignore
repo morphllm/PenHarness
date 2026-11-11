@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+fleet-state.json
+
+# Per-engagement state is never committed. The template is.
+hunts/*
+!hunts/TEMPLATE/
+!hunts/TEMPLATE/**

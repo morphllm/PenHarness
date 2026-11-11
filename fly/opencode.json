@@ -1,0 +1,51 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "share": "disabled",
+  "provider": {
+    "morph": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Morph",
+      "options": {
+        "baseURL": "https://api.morphllm.com/v1",
+        "apiKey": "{env:MORPH_API_KEY}"
+      },
+      "models": {
+        "morph-kimik3-fast": { "name": "Kimi K3 Fast" },
+        "morph-kimik3": { "name": "Kimi K3" },
+        "morph-dsv41flash-1017": { "name": "DeepSeek V4.1 Flash 1017" },
+        "morph-glm53flash": { "name": "GLM-5.3 Flash" },
+        "morph-glm53-744b": { "name": "GLM-5.3 744B" },
+        "morph-v3-fast": { "name": "Morph V3 Fast" },
+        "auto": { "name": "Auto" }
+      }
+    },
+    "morph-abliterated": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Morph Abliterated",
+      "options": {
+        "baseURL": "https://test-rdu-bb4-abliterated.morphllm.com/v1",
+        "apiKey": "{env:MORPH_API_KEY}"
+      },
+      "models": {
+        "morph-dsv41flash-abliterated": {
+          "name": "DeepSeek V4.1 Flash Abliterated",
+          "reasoning": true,
+          "tool_call": true,
+          "interleaved": { "field": "reasoning_content" },
+          "limit": { "context": 1048576, "output": 32768 }
+        }
+      }
+    }
+  },
+  "permission": {
+    "edit": "allow",
+    "bash": "allow",
+    "webfetch": "allow",
+    "write": "allow",
+    "read": "allow",
+    "grep": "allow",
+    "glob": "allow",
+    "list": "allow"
+  }
+}

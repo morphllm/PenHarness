@@ -1,0 +1,8 @@
+# One hypothesis per line, worker-sizable. Blank lines and # comments ignored.
+# Example surface tasks — replace with target-specific ones:
+Enumerate all product hosts from the vendor's marketing/docs product menu and record each host's Server header, CDN, and redirect chain.
+Pull crt.sh subdomains for every in-scope domain; classify each resolved host's stack and store the table under evidence/.
+Fetch every JS bundle on the primary app host; extract CSP strings, API base URLs, and token-shaped strings; record which are publishable by design.
+Read the CSP of every app host and enumerate hosts referenced by connect-src/img-src/script-src/report-uri; probe each one's auth posture.
+Check /api/schema/ and other OpenAPI/Swagger paths unauthenticated; if a schema exists, dump it to evidence/ and diff its route list against the JS bundle's.
+Record server-timing headers on a matrix of app routes; write the inferred per-region deployment shape (app count, datastore fan-out) to evidence/.

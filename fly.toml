@@ -1,0 +1,46 @@
+# The long-lived coordinator server. Ephemeral worker machines are created by
+# fleet.py against the same app/image and are NOT configured here.
+# 1. Change `app` to your app name (fly apps create <name>).
+# 2. fly deploy          # builds and pushes the image fleet.py machines reuse
+# 3. fly scale count 1   # opencode state is per-machine; >1 coordinator
+#                        # machines behind one anycast URL = incoherent sessions
+app = "whitehat-fleet"            # CHANGE ME
+primary_region = "iad"
+
+[build]
+  dockerfile = "fly/Dockerfile"
+
+[env]
+  PORT = "4096"
+  OPENCODE_CONFIG = "/opt/harness/fly/opencode.json"
+  # The coordinator is a lead surface: loop its root session whenever it idles.
+  HUNT_LOOP = "1"
+
+# TCP health checks: opencode protects every HTTP route (including
+# /global/health) with basic auth, so an unauthenticated HTTP check gets 401.
+[[services]]
+  internal_port = 4096
+  protocol = "tcp"
+  processes = ["app"]
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "30s"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 2
+  memory = "2gb"
