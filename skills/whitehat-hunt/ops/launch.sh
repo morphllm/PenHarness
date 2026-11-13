@@ -5,7 +5,7 @@
 set -uo pipefail
 STREAM=${1:?stream}
 TYPE=${2:-default}
-BASE="$(cd "$(dirname "$0")/.." && pwd)"
+BASE="${BASE:-$(cd "$(dirname "$0")/.." && pwd)}"
 KEY=$HOME/.ssh/boat_hunt_ed25519
 HOST=ph-$STREAM
 PEER=$(cat "$HOME/.local/share/tmux2/peer-name" 2>/dev/null || hostname)
@@ -58,11 +58,10 @@ PY
 fi
 
 # push everything the box needs
-cat "$BASE/../whitehat-common.md" "$BASE/../streams/$STREAM.md" 2>/dev/null > "$BASE/brief-$STREAM.md" || \
-cat "$BASE/../common.md" "$BASE/../streams/$STREAM.md" > "$BASE/brief-$STREAM.md"
+cat "$BASE/common.md" "$BASE/streams/$STREAM.md" > "$BASE/brief-$STREAM.md"
 scp -q -o StrictHostKeyChecking=no -i "$KEY" "$BASE/brief-$STREAM.md" "$HOST:~/hunt/brief.md" || { say "brief push failed"; exit 1; }
 scp -q -o StrictHostKeyChecking=no -i "$KEY" "$BASE/worker.sh" "$BASE/mailbox.sh" "$HOST:~/hunt/"
-[ -f "$BASE/../creds.json" ] && scp -q -o StrictHostKeyChecking=no -i "$KEY" "$BASE/../creds.json" "$HOST:~/hunt/creds.json"
+[ -f "$BASE/creds.json" ] && scp -q -o StrictHostKeyChecking=no -i "$KEY" "$BASE/creds.json" "$HOST:~/hunt/creds.json"
 [ -f "$BASE/queue-$STREAM.txt" ] && scp -q -o StrictHostKeyChecking=no -i "$KEY" "$BASE/queue-$STREAM.txt" "$HOST:~/hunt/queue.txt"
 say "brief pushed"
 

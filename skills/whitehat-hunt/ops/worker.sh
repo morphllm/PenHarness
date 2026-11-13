@@ -13,7 +13,8 @@ while :; do
   id=$(printf '%s' "$task" | sha1sum | cut -c1-8)
   out="findings.d/$W-$id.md"
   tlog="logs/$W-$id.log"
-  opencode run -m "$MODEL" "You are worker $W on a whitehat hunt. Brief: ~/hunt/brief.md. Credentials/local state: ~/hunt/creds.json, ~/hunt/notes.md, ~/hunt/FINDINGS.md, ~/hunt/ids.json if any, and *everyone else's result* in ~/hunt/findings.d/ (grep it first so you do not repeat a dead end).
+  env -u OPENAI_API_KEY -u ANTHROPIC_API_KEY -u OPENROUTER_API_KEY -u CLAUDE_CODE_OAUTH_TOKEN \
+    opencode run -m "$MODEL" "You are worker $W on a whitehat hunt. Brief: ~/hunt/brief.md. Credentials/local state: ~/hunt/creds.json, ~/hunt/notes.md, ~/hunt/FINDINGS.md, ~/hunt/ids.json if any, and *everyone else's result* in ~/hunt/findings.d/ (grep it first so you do not repeat a dead end).
 
 YOUR TASK FOR THIS SESSION (surgical; finish it; do not wander):
 $task
