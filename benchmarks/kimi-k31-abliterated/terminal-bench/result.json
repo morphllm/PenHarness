@@ -1,0 +1,121 @@
+{
+    "schema_version": 1,
+    "id": "aef67c56-0aea-4488-833d-72ef0ca1249b",
+    "started_at": "2026-11-19T20:21:46.024199",
+    "updated_at": "2026-11-20T04:14:09.866374",
+    "finished_at": "2026-11-20T04:14:09.866374",
+    "n_total_trials": 66,
+    "stats": {
+        "n_completed_trials": 66,
+        "n_errored_trials": 27,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "terminus-2__morph-kimik3-abliterated__terminal-bench/terminal-bench": {
+                "n_trials": 46,
+                "n_errors": 27,
+                "metrics": [
+                    {
+                        "mean": 0.391304347826087
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "layout-config-recreation2__s6mE6s2",
+                            "mp-checkpoint-consolidation__Q4aLqdx",
+                            "biped-contact-dynamics__kZNJkkU",
+                            "ks-solver-cpp__smnWURY",
+                            "react-lead-form__rQ2RaYd",
+                            "lake-temp-glm__AYZbkv2",
+                            "takens-embedding-lean__ZgCSYZQ",
+                            "satb-audio-transcription__8JBcq6j",
+                            "formal-crypto__gbrAhFW",
+                            "freight-dispatch-shift__oWhXNu7",
+                            "sound-change-cascade__QbUqJkW",
+                            "cad-model__U7ZZNzp",
+                            "glycan-ms2-elucidation__39VqHfj",
+                            "coq-block-bound__UC2eJHL",
+                            "protein-autointerp-disulfide__ediLrEX",
+                            "wal-recovery-ordering__zVX3FgY",
+                            "ctr-optimization__GbnHVNf",
+                            "bun-sourcemap-leak__9skoUno",
+                            "legacy-utility-triage__yFhdRfb",
+                            "nextjs-performance__cLzyVXH",
+                            "live-database-cutover__BYzoQ9E",
+                            "cumulative-layout-shift__XrWbXtb",
+                            "data-anonymization__DJMhjkW",
+                            "vba-userform-port__Ny4noRv",
+                            "ontology-kg-querying__opkKHD2",
+                            "gsea-proteomics__XLCXwoW",
+                            "intrastat-meldung__pPhFukr",
+                            "uefi-bootkit__dzXyozU"
+                        ],
+                        "1.0": [
+                            "photonic-waveguide-routing__ni4wope",
+                            "fin-saccr-rwa__HeMMmpp",
+                            "embedding-drift-monitor__MfQXefP",
+                            "pretrain-shard-corruption__rsVfjMV",
+                            "cargo-flight-dispatch__ZAMuUUU",
+                            "payments-pipeline-fix__LgoqnzM",
+                            "heat-pump-warranty__yqgi385",
+                            "foodstuff-beta-activity__w3UqkJ4",
+                            "session-window-debug__QieXvnA",
+                            "batched-eval-parity__iasathW",
+                            "mvcc-lsm-compaction__G7A4vpP",
+                            "risk-scorer-replay__oxJzMzY",
+                            "atrx-vep-crispr__RBnpLvp",
+                            "freecad-impeller__tpa9MzQ",
+                            "music-harmony__SrQqSo5",
+                            "production-planning__JqGtZuF",
+                            "kv-live-surgery__xwHDPyD",
+                            "interleaved-vigenere__yLRDiFc"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "layout-config-recreation2__s6mE6s2",
+                        "mp-checkpoint-consolidation__Q4aLqdx",
+                        "biped-contact-dynamics__kZNJkkU",
+                        "takens-embedding-lean__ZgCSYZQ",
+                        "cad-model__U7ZZNzp",
+                        "ctr-optimization__GbnHVNf",
+                        "distributed-dedup__dQoEeWP",
+                        "freecad-platform-drawing__Webox3K",
+                        "uefi-bootkit__dzXyozU"
+                    ],
+                    "RuntimeError": [
+                        "math-eval-grader__aJvoaHu",
+                        "rs-archive-clone__djoxkfB",
+                        "wdm-design__mVJupjv",
+                        "fp8-rmsnorm-gemm__jT53oj4"
+                    ],
+                    "EnvironmentStartTimeoutError": [
+                        "telecom-entity-resolution__YxssnWu",
+                        "vpp-loss-divergence__UXQSiXm",
+                        "html-js-filter__8qpL3Fp",
+                        "layout-config-recreation__6G6cL8F",
+                        "shadow-relay__DB4AB3t",
+                        "vllm-deepseek-streaming__yErdLW4",
+                        "roy-polymorph-cn__kiE5GNE",
+                        "freecad-spring-clip__tEXz8xN",
+                        "vf2-speedup-networkx__MfKoQeU",
+                        "jax-speedrun-gpu__CYpLBNM",
+                        "medical-claims-processing__EyXkzwy",
+                        "retro-console-soc__JpNgy8E",
+                        "sglang-qwen-burst__tvoX2rK",
+                        "hof-topology-interpenetration__spcUgQ9"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 709582946,
+        "n_cache_tokens": 701617920,
+        "n_output_tokens": 4958276,
+        "cost_usd": null
+    }
+}
