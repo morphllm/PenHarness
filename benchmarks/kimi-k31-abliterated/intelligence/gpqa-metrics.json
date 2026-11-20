@@ -1,0 +1,1766 @@
+{
+  "gpqa": {
+    "pass@1": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 91.91919191919192,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 94.94949494949495,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 92.67676767676768,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 4003.537878787879,
+        "std_dev_across_runs": 142.37487901800023,
+        "avg_sample_std_dev": 1545.317587848547,
+        "std_err_across_runs": 100.67424242424225
+      },
+      "answer_tokens_statistics": {
+        "avg": 158.49747474747474,
+        "std_dev_across_runs": 0.23213101402588338,
+        "avg_sample_std_dev": 19.659711264807797,
+        "std_err_across_runs": 0.1641414141414117
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9267676767676768,
+        "std_dev_across_runs": 0.010713739108887075,
+        "avg_sample_std_dev": 0.046426202805177376,
+        "std_err_across_runs": 0.007575757575757569
+      }
+    },
+    "pass@3": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 96.33838383838383,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 92.76094276094275,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 4162.212121212121,
+        "std_dev_across_runs": 292.6907048650791,
+        "avg_sample_std_dev": 1572.1349953314566,
+        "std_err_across_runs": 168.98505724315476
+      },
+      "answer_tokens_statistics": {
+        "avg": 158.75589225589223,
+        "std_dev_across_runs": 0.47674021207202766,
+        "avg_sample_std_dev": 23.22230700615199,
+        "std_err_across_runs": 0.27524608977330445
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9276094276094277,
+        "std_dev_across_runs": 0.007714773897232043,
+        "avg_sample_std_dev": 0.04957047765769516,
+        "std_err_across_runs": 0.0044541267863040185
+      }
+    },
+    "pass@4": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 96.96969696969697,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 91.91919191919192,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 4280.135101010101,
+        "std_dev_across_runs": 335.760652549824,
+        "avg_sample_std_dev": 1712.5855462681418,
+        "std_err_across_runs": 167.880326274912
+      },
+      "answer_tokens_statistics": {
+        "avg": 157.57449494949495,
+        "std_dev_across_runs": 2.3946438570531208,
+        "avg_sample_std_dev": 23.228955677054948,
+        "std_err_across_runs": 1.1973219285265604
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9191919191919192,
+        "std_dev_across_runs": 0.017974879212173937,
+        "avg_sample_std_dev": 0.05654622435710422,
+        "std_err_across_runs": 0.008987439606086969
+      }
+    },
+    "majority@2": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 92.67676767676768,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 93.93939393939394,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 198,
+      "avg_tokens": 4437,
+      "gen_seconds": 1996,
+      "symbolic_correct": 92.67676767676768,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Physics (general)": {
+    "pass@1": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 93.42105263157895,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 94.73684210526316,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 92.10526315789474,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 838.2368421052631,
+        "std_dev_across_runs": 12.765138207736117,
+        "avg_sample_std_dev": 148.30634331728376,
+        "std_err_across_runs": 9.0263157894737
+      },
+      "answer_tokens_statistics": {
+        "avg": 184.47368421052633,
+        "std_dev_across_runs": 9.825062643855205,
+        "avg_sample_std_dev": 22.329687826943612,
+        "std_err_across_runs": 6.947368421052643
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9210526315789473,
+        "std_dev_across_runs": 0.0372161463782393,
+        "avg_sample_std_dev": 0.03721614637823935,
+        "std_err_across_runs": 0.026315789473684178
+      }
+    },
+    "pass@3": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 94.73684210526316,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 92.98245614035088,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 895.5614035087718,
+        "std_dev_across_runs": 99.69849746633719,
+        "avg_sample_std_dev": 294.93816612979555,
+        "std_err_across_runs": 57.560954349991
+      },
+      "answer_tokens_statistics": {
+        "avg": 181.56140350877192,
+        "std_dev_across_runs": 8.585456576983695,
+        "avg_sample_std_dev": 30.991475347138195,
+        "std_err_across_runs": 4.95681566583738
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9298245614035089,
+        "std_dev_across_runs": 0.030386856273138165,
+        "avg_sample_std_dev": 0.030386856273138203,
+        "std_err_across_runs": 0.01754385964912279
+      }
+    },
+    "pass@4": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 94.73684210526316,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 93.42105263157895,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 892.9473684210526,
+        "std_dev_across_runs": 81.57119374584882,
+        "avg_sample_std_dev": 305.94480771804297,
+        "std_err_across_runs": 40.78559687292441
+      },
+      "answer_tokens_statistics": {
+        "avg": 180.93421052631578,
+        "std_dev_across_runs": 7.121343078321016,
+        "avg_sample_std_dev": 31.8380231065285,
+        "std_err_across_runs": 3.560671539160508
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9342105263157895,
+        "std_dev_across_runs": 0.02631578947368418,
+        "avg_sample_std_dev": 0.02631578947368421,
+        "std_err_across_runs": 0.01315789473684209
+      }
+    },
+    "majority@2": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 92.10526315789474,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 94.73684210526316,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 19,
+      "avg_tokens": 1073,
+      "gen_seconds": 1410,
+      "symbolic_correct": 94.73684210526316,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Organic Chemistry": {
+    "pass@1": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 89.58333333333333,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 94.44444444444447,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 90.97222222222223,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 7113.388888888889,
+        "std_dev_across_runs": 521.1966232995842,
+        "avg_sample_std_dev": 2156.8524593142665,
+        "std_err_across_runs": 368.5416666666665
+      },
+      "answer_tokens_statistics": {
+        "avg": 143.64583333333334,
+        "std_dev_across_runs": 1.7775878804828464,
+        "avg_sample_std_dev": 14.721570347203263,
+        "std_err_across_runs": 1.2569444444444429
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9097222222222222,
+        "std_dev_across_runs": 0.029462782549439532,
+        "avg_sample_std_dev": 0.0687464926153588,
+        "std_err_across_runs": 0.020833333333333367
+      }
+    },
+    "pass@3": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 97.22222222222223,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 91.66666666666667,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 7566.449074074073,
+        "std_dev_across_runs": 866.956489259725,
+        "avg_sample_std_dev": 2448.645102146304,
+        "std_err_across_runs": 500.53756244979513
+      },
+      "answer_tokens_statistics": {
+        "avg": 144.8287037037037,
+        "std_dev_across_runs": 2.4036339729085627,
+        "avg_sample_std_dev": 17.55148446304257,
+        "std_err_across_runs": 1.3877387212920884
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9166666666666666,
+        "std_dev_across_runs": 0.024056261216234453,
+        "avg_sample_std_dev": 0.07216878364870323,
+        "std_err_across_runs": 0.013888888888888916
+      }
+    },
+    "pass@4": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 98.61111111111111,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 89.58333333333333,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 7967.534722222223,
+        "std_dev_across_runs": 1069.8385352229768,
+        "avg_sample_std_dev": 2859.8356411044215,
+        "std_err_across_runs": 534.9192676114884
+      },
+      "answer_tokens_statistics": {
+        "avg": 143.30208333333334,
+        "std_dev_across_runs": 3.629589031566226,
+        "avg_sample_std_dev": 17.74470561389368,
+        "std_err_across_runs": 1.814794515783113
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8958333333333334,
+        "std_dev_across_runs": 0.04606423319938055,
+        "avg_sample_std_dev": 0.08977918909913549,
+        "std_err_across_runs": 0.023032116599690275
+      }
+    },
+    "majority@2": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 90.97222222222223,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 93.05555555555556,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 72,
+      "avg_tokens": 8110,
+      "gen_seconds": 1996,
+      "symbolic_correct": 89.58333333333333,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Quantum Mechanics": {
+    "pass@1": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1657.5,
+        "std_dev_across_runs": 9.927779207859102,
+        "avg_sample_std_dev": 709.0018273601275,
+        "std_err_across_runs": 7.019999999999982
+      },
+      "answer_tokens_statistics": {
+        "avg": 193.0,
+        "std_dev_across_runs": 3.676955262170039,
+        "avg_sample_std_dev": 39.25856849147712,
+        "std_err_across_runs": 2.599999999999994
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1526.2666666666667,
+        "std_dev_across_runs": 227.411177678964,
+        "avg_sample_std_dev": 752.9842178930655,
+        "std_err_across_runs": 131.2959046496797
+      },
+      "answer_tokens_statistics": {
+        "avg": 188.52,
+        "std_dev_across_runs": 8.183593342780418,
+        "avg_sample_std_dev": 39.520519618091704,
+        "std_err_across_runs": 4.724799819392704
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1456.41,
+        "std_dev_across_runs": 232.3726418205609,
+        "avg_sample_std_dev": 656.3742911678332,
+        "std_err_across_runs": 116.18632091028044
+      },
+      "answer_tokens_statistics": {
+        "avg": 186.49,
+        "std_dev_across_runs": 7.818635857147116,
+        "avg_sample_std_dev": 41.46981545628524,
+        "std_err_across_runs": 3.909317928573558
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 25,
+      "avg_tokens": 1642,
+      "gen_seconds": 1448,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Electromagnetism and Photonics": {
+    "pass@1": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 83.33333333333333,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 91.66666666666667,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 83.33333333333333,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 749.3333333333334,
+        "std_dev_across_runs": 200.58262359658394,
+        "avg_sample_std_dev": 371.23106012293744,
+        "std_err_across_runs": 141.8333333333333
+      },
+      "answer_tokens_statistics": {
+        "avg": 143.83333333333334,
+        "std_dev_across_runs": 11.313708498984761,
+        "avg_sample_std_dev": 20.506096654409877,
+        "std_err_across_runs": 8.0
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8333333333333334,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.23570226039551587,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 95.83333333333333,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 83.33333333333333,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 679.5555555555555,
+        "std_dev_across_runs": 186.34245157574603,
+        "avg_sample_std_dev": 299.7100535635286,
+        "std_err_across_runs": 107.58486457871177
+      },
+      "answer_tokens_statistics": {
+        "avg": 155.61111111111111,
+        "std_dev_across_runs": 21.91228304280838,
+        "avg_sample_std_dev": 34.315694554917194,
+        "std_err_across_runs": 12.65106251332469
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8333333333333334,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.1924500897298753,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 83.33333333333333,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 619.0,
+        "std_dev_across_runs": 194.46569725123095,
+        "avg_sample_std_dev": 277.4727551880067,
+        "std_err_across_runs": 97.23284862561547
+      },
+      "answer_tokens_statistics": {
+        "avg": 151.83333333333334,
+        "std_dev_across_runs": 19.421256014614116,
+        "avg_sample_std_dev": 30.102585982223356,
+        "std_err_across_runs": 9.710628007307058
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8333333333333334,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.16666666666666666,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 83.33333333333333,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 83.33333333333333,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 6,
+      "avg_tokens": 770,
+      "gen_seconds": 1398,
+      "symbolic_correct": 83.33333333333333,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-High-energy particle physics": {
+    "pass@1": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 709.0357142857143,
+        "std_dev_across_runs": 48.53782976573378,
+        "avg_sample_std_dev": 222.1830521742588,
+        "std_err_across_runs": 34.32142857142861
+      },
+      "answer_tokens_statistics": {
+        "avg": 148.71428571428572,
+        "std_dev_across_runs": 6.060915267313273,
+        "avg_sample_std_dev": 20.6071119088651,
+        "std_err_across_runs": 4.285714285714292
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 759.6190476190476,
+        "std_dev_across_runs": 94.09559656284142,
+        "avg_sample_std_dev": 233.51051363492797,
+        "std_err_across_runs": 54.32611800511492
+      },
+      "answer_tokens_statistics": {
+        "avg": 146.0952380952381,
+        "std_dev_across_runs": 6.240639248610075,
+        "avg_sample_std_dev": 20.344298825800742,
+        "std_err_across_runs": 3.6030347501003708
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 742.9285714285714,
+        "std_dev_across_runs": 83.76719033649603,
+        "avg_sample_std_dev": 221.60064345706627,
+        "std_err_across_runs": 41.883595168248014
+      },
+      "answer_tokens_statistics": {
+        "avg": 144.07142857142858,
+        "std_dev_across_runs": 6.507452556531641,
+        "avg_sample_std_dev": 20.582516630907058,
+        "std_err_across_runs": 3.2537262782658205
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 14,
+      "avg_tokens": 887,
+      "gen_seconds": 1384,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Genetics": {
+    "pass@1": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1225.75,
+        "std_dev_across_runs": 210.71782079359116,
+        "avg_sample_std_dev": 329.51176003293114,
+        "std_err_across_runs": 149.0
+      },
+      "answer_tokens_statistics": {
+        "avg": 83.0,
+        "std_dev_across_runs": 4.242640687119285,
+        "avg_sample_std_dev": 4.949747468305833,
+        "std_err_across_runs": 2.9999999999999996
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.5,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1331.25,
+        "std_dev_across_runs": 235.77902790536737,
+        "avg_sample_std_dev": 317.71786153838065,
+        "std_err_across_runs": 136.12708523043216
+      },
+      "answer_tokens_statistics": {
+        "avg": 84.66666666666667,
+        "std_dev_across_runs": 4.163331998932265,
+        "avg_sample_std_dev": 7.113942610796926,
+        "std_err_across_runs": 2.4037008503093262
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.5,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1324.3125,
+        "std_dev_across_runs": 193.01212990811396,
+        "avg_sample_std_dev": 310.25124132074296,
+        "std_err_across_runs": 96.50606495405698
+      },
+      "answer_tokens_statistics": {
+        "avg": 83.6875,
+        "std_dev_across_runs": 3.923088706618804,
+        "avg_sample_std_dev": 8.902723446143174,
+        "std_err_across_runs": 1.961544353309402
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.5,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 4,
+      "avg_tokens": 1408,
+      "gen_seconds": 1297,
+      "symbolic_correct": 50.0,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Astrophysics": {
+    "pass@1": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 98.07692307692308,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 96.15384615384616,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 3611.6923076923076,
+        "std_dev_across_runs": 1564.0114143259989,
+        "avg_sample_std_dev": 2500.0032212997,
+        "std_err_across_runs": 1105.9230769230767
+      },
+      "answer_tokens_statistics": {
+        "avg": 194.30769230769232,
+        "std_dev_across_runs": 0.21757131728815765,
+        "avg_sample_std_dev": 25.999772415936132,
+        "std_err_across_runs": 0.1538461538461462
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9615384615384616,
+        "std_dev_across_runs": 0.054392829322042084,
+        "avg_sample_std_dev": 0.05439282932204212,
+        "std_err_across_runs": 0.038461538461538436
+      }
+    },
+    "pass@3": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 97.43589743589743,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 3176.128205128205,
+        "std_dev_across_runs": 1338.736013707864,
+        "avg_sample_std_dev": 2361.544088287275,
+        "std_err_across_runs": 772.9195978880819
+      },
+      "answer_tokens_statistics": {
+        "avg": 191.4615384615385,
+        "std_dev_across_runs": 4.932083108280133,
+        "avg_sample_std_dev": 22.420063643759228,
+        "std_err_across_runs": 2.847539510231141
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9743589743589743,
+        "std_dev_across_runs": 0.04441155916843272,
+        "avg_sample_std_dev": 0.04441155916843276,
+        "std_err_across_runs": 0.025641025641025626
+      }
+    },
+    "pass@4": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 98.07692307692308,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 2819.980769230769,
+        "std_dev_across_runs": 1304.6736733697899,
+        "avg_sample_std_dev": 2082.780926750634,
+        "std_err_across_runs": 652.3368366848949
+      },
+      "answer_tokens_statistics": {
+        "avg": 190.01923076923077,
+        "std_dev_across_runs": 4.953581375309647,
+        "avg_sample_std_dev": 20.356903274167525,
+        "std_err_across_runs": 2.4767906876548236
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9807692307692307,
+        "std_dev_across_runs": 0.038461538461538436,
+        "avg_sample_std_dev": 0.038461538461538464,
+        "std_err_across_runs": 0.019230769230769218
+      }
+    },
+    "majority@2": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 96.15384615384616,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 13,
+      "avg_tokens": 3010,
+      "gen_seconds": 1713,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Molecular Biology": {
+    "pass@1": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 88.33333333333333,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 92.22222222222221,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 86.66666666666667,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 6278.866666666667,
+        "std_dev_across_runs": 2626.1003044226795,
+        "avg_sample_std_dev": 4385.099133302336,
+        "std_err_across_runs": 1856.9333333333334
+      },
+      "answer_tokens_statistics": {
+        "avg": 89.3,
+        "std_dev_across_runs": 5.232590180780456,
+        "avg_sample_std_dev": 14.094995171651847,
+        "std_err_across_runs": 3.7000000000000024
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8666666666666667,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.09428090415820635,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 93.33333333333333,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 86.66666666666667,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 6705.333333333333,
+        "std_dev_across_runs": 1998.4551177791755,
+        "avg_sample_std_dev": 3399.1988039869666,
+        "std_err_across_runs": 1153.8086002131922
+      },
+      "answer_tokens_statistics": {
+        "avg": 92.86666666666666,
+        "std_dev_across_runs": 7.200925866396165,
+        "avg_sample_std_dev": 15.666767652905408,
+        "std_err_across_runs": 4.157456487378365
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8666666666666667,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.07698003589195011,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 93.33333333333333,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 88.33333333333333,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 6365.016666666666,
+        "std_dev_across_runs": 1767.9961273419963,
+        "avg_sample_std_dev": 3228.8675387862518,
+        "std_err_across_runs": 883.9980636709981
+      },
+      "answer_tokens_statistics": {
+        "avg": 93.38333333333334,
+        "std_dev_across_runs": 5.9696454389408,
+        "avg_sample_std_dev": 14.109814257350786,
+        "std_err_across_runs": 2.9848227194704
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8833333333333333,
+        "std_dev_across_runs": 0.033333333333333326,
+        "avg_sample_std_dev": 0.07182335127930838,
+        "std_err_across_runs": 0.016666666666666663
+      }
+    },
+    "majority@2": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 86.66666666666667,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 86.66666666666667,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 15,
+      "avg_tokens": 6458,
+      "gen_seconds": 1977,
+      "symbolic_correct": 90.0,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Chemistry (general)": {
+    "pass@1": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 93.75,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 98.33333333333334,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 2580.825,
+        "std_dev_across_runs": 417.086934882885,
+        "avg_sample_std_dev": 1076.5347190174593,
+        "std_err_across_runs": 294.9249999999999
+      },
+      "answer_tokens_statistics": {
+        "avg": 190.325,
+        "std_dev_across_runs": 2.6516504294495533,
+        "avg_sample_std_dev": 15.520993847044716,
+        "std_err_across_runs": 1.875
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 96.66666666666666,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 2604.3333333333335,
+        "std_dev_across_runs": 297.72248963310335,
+        "avg_sample_std_dev": 911.5631992045671,
+        "std_err_across_runs": 171.8901595334778
+      },
+      "answer_tokens_statistics": {
+        "avg": 189.3166666666667,
+        "std_dev_across_runs": 2.562388208943619,
+        "avg_sample_std_dev": 21.240779542547706,
+        "std_err_across_runs": 1.4793955222019217
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9666666666666666,
+        "std_dev_across_runs": 0.05773502691896257,
+        "avg_sample_std_dev": 0.05773502691896258,
+        "std_err_across_runs": 0.03333333333333333
+      }
+    },
+    "pass@4": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 93.75,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 2968.35,
+        "std_dev_across_runs": 767.5447793668676,
+        "avg_sample_std_dev": 1264.5241807369873,
+        "std_err_across_runs": 383.7723896834338
+      },
+      "answer_tokens_statistics": {
+        "avg": 190.075,
+        "std_dev_across_runs": 2.5840859118845034,
+        "avg_sample_std_dev": 20.71907309161083,
+        "std_err_across_runs": 1.2920429559422517
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.9375,
+        "std_dev_across_runs": 0.07500000000000001,
+        "avg_sample_std_dev": 0.08273502691896258,
+        "std_err_across_runs": 0.037500000000000006
+      }
+    },
+    "majority@2": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 20,
+      "avg_tokens": 3158,
+      "gen_seconds": 1598,
+      "symbolic_correct": 97.5,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Relativistic Mechanics": {
+    "pass@1": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1212.5714285714287,
+        "std_dev_across_runs": 259.4071734410077,
+        "avg_sample_std_dev": 469.51890270786754,
+        "std_err_across_runs": 183.42857142857142
+      },
+      "answer_tokens_statistics": {
+        "avg": 168.85714285714286,
+        "std_dev_across_runs": 12.525891552447419,
+        "avg_sample_std_dev": 15.758379695014487,
+        "std_err_across_runs": 8.857142857142861
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8571428571428571,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1085.047619047619,
+        "std_dev_across_runs": 287.11148845478317,
+        "avg_sample_std_dev": 569.8257294983371,
+        "std_err_across_runs": 165.7638951468032
+      },
+      "answer_tokens_statistics": {
+        "avg": 185.52380952380955,
+        "std_dev_across_runs": 30.19573335630665,
+        "avg_sample_std_dev": 34.96371070330156,
+        "std_err_across_runs": 17.433514781641808
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8571428571428571,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1008.0,
+        "std_dev_across_runs": 280.53641523358215,
+        "avg_sample_std_dev": 540.7237434103058,
+        "std_err_across_runs": 140.26820761679107
+      },
+      "answer_tokens_statistics": {
+        "avg": 182.92857142857142,
+        "std_dev_across_runs": 25.195156645024994,
+        "avg_sample_std_dev": 34.49496594892033,
+        "std_err_across_runs": 12.597578322512497
+      },
+      "symbolic_correct_statistics": {
+        "avg": 0.8571428571428571,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 7,
+      "avg_tokens": 1190,
+      "gen_seconds": 1295,
+      "symbolic_correct": 85.71428571428571,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Inorganic Chemistry": {
+    "pass@1": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1737.5,
+        "std_dev_across_runs": 205.76807332528534,
+        "avg_sample_std_dev": 205.76807332528534,
+        "std_err_across_runs": 145.5
+      },
+      "answer_tokens_statistics": {
+        "avg": 331.5,
+        "std_dev_across_runs": 17.67766952966369,
+        "avg_sample_std_dev": 17.67766952966369,
+        "std_err_across_runs": 12.5
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1754.3333333333333,
+        "std_dev_across_runs": 148.39249756417382,
+        "avg_sample_std_dev": 148.39249756417382,
+        "std_err_across_runs": 85.67444841439665
+      },
+      "answer_tokens_statistics": {
+        "avg": 318.3333333333333,
+        "std_dev_across_runs": 26.006409466386035,
+        "avg_sample_std_dev": 26.006409466386035,
+        "std_err_across_runs": 15.01480750607361
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 1652.5,
+        "std_dev_across_runs": 236.98171518776155,
+        "avg_sample_std_dev": 236.98171518776155,
+        "std_err_across_runs": 118.49085759388078
+      },
+      "answer_tokens_statistics": {
+        "avg": 327.0,
+        "std_dev_across_runs": 27.410460290431704,
+        "avg_sample_std_dev": 27.410460290431704,
+        "std_err_across_runs": 13.705230145215852
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 1,
+      "avg_tokens": 1979,
+      "gen_seconds": 312,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Optics and Acoustics": {
+    "pass@1": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 594.0,
+        "std_dev_across_runs": 91.92388155425118,
+        "avg_sample_std_dev": 91.92388155425118,
+        "std_err_across_runs": 65.0
+      },
+      "answer_tokens_statistics": {
+        "avg": 178.0,
+        "std_dev_across_runs": 7.0710678118654755,
+        "avg_sample_std_dev": 7.0710678118654755,
+        "std_err_across_runs": 5.0
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 573.6666666666666,
+        "std_dev_across_runs": 73.92789279651716,
+        "avg_sample_std_dev": 73.92789279651716,
+        "std_err_across_runs": 42.68228880669098
+      },
+      "answer_tokens_statistics": {
+        "avg": 170.0,
+        "std_dev_across_runs": 14.730919862656235,
+        "avg_sample_std_dev": 14.730919862656235,
+        "std_err_across_runs": 8.504900548115382
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 570.75,
+        "std_dev_across_runs": 60.643081496023385,
+        "avg_sample_std_dev": 60.643081496023385,
+        "std_err_across_runs": 30.321540748011692
+      },
+      "answer_tokens_statistics": {
+        "avg": 167.5,
+        "std_dev_across_runs": 13.025615788386615,
+        "avg_sample_std_dev": 13.025615788386615,
+        "std_err_across_runs": 6.512807894193307
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 1,
+      "avg_tokens": 738,
+      "gen_seconds": 1241,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    }
+  },
+  "gpqa-Condensed Matter Physics": {
+    "pass@1": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@2": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-2]": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 276.0,
+        "std_dev_across_runs": 89.09545442950498,
+        "avg_sample_std_dev": 89.09545442950498,
+        "std_err_across_runs": 62.99999999999999
+      },
+      "answer_tokens_statistics": {
+        "avg": 69.5,
+        "std_dev_across_runs": 0.7071067811865476,
+        "avg_sample_std_dev": 0.7071067811865476,
+        "std_err_across_runs": 0.5
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@3": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-3]": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 244.66666666666666,
+        "std_dev_across_runs": 83.15247039825896,
+        "avg_sample_std_dev": 83.15247039825896,
+        "std_err_across_runs": 48.0081011682172
+      },
+      "answer_tokens_statistics": {
+        "avg": 70.33333333333333,
+        "std_dev_across_runs": 1.5275252316519468,
+        "avg_sample_std_dev": 1.5275252316519468,
+        "std_err_across_runs": 0.881917103688197
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "pass@4": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "pass@1[avg-of-4]": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0,
+      "reasoning_tokens_statistics": {
+        "avg": 234.5,
+        "std_dev_across_runs": 70.87312607751969,
+        "avg_sample_std_dev": 70.87312607751969,
+        "std_err_across_runs": 35.43656303875984
+      },
+      "answer_tokens_statistics": {
+        "avg": 71.75,
+        "std_dev_across_runs": 3.095695936834452,
+        "avg_sample_std_dev": 3.095695936834452,
+        "std_err_across_runs": 1.547847968417226
+      },
+      "symbolic_correct_statistics": {
+        "avg": 1.0,
+        "std_dev_across_runs": 0.0,
+        "avg_sample_std_dev": 0.0,
+        "std_err_across_runs": 0.0
+      }
+    },
+    "majority@2": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@3": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    },
+    "majority@4": {
+      "num_entries": 1,
+      "avg_tokens": 306,
+      "gen_seconds": 1343,
+      "symbolic_correct": 100.0,
+      "no_answer": 0.0
+    }
+  }
+}
