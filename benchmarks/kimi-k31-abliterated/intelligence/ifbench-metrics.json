@@ -1,0 +1,64 @@
+{
+  "ifbench": {
+    "pass@1": {
+      "num_prompts": 300,
+      "num_instructions": 344,
+      "average_score": 71.9045542635659,
+      "prompt_strict_accuracy": 68.0,
+      "instruction_strict_accuracy": 69.91279069767442,
+      "prompt_loose_accuracy": 73.83333333333333,
+      "instruction_loose_accuracy": 75.87209302325581,
+      "num_entries": 300,
+      "avg_tokens": 5207,
+      "gen_seconds": 1717
+    },
+    "pass@2": {
+      "num_prompts": 300,
+      "num_instructions": 344,
+      "average_score": 78.19089147286822,
+      "prompt_strict_accuracy": 74.66666666666667,
+      "instruction_strict_accuracy": 76.74418604651163,
+      "prompt_loose_accuracy": 79.66666666666666,
+      "instruction_loose_accuracy": 81.68604651162791,
+      "num_entries": 300,
+      "avg_tokens": 5207,
+      "gen_seconds": 1717
+    },
+    "pass@1[avg-of-2]": {
+      "num_prompts": 300,
+      "num_instructions": 344,
+      "average_score": 72.12257751937985,
+      "prompt_strict_accuracy": 68.0,
+      "instruction_strict_accuracy": 70.49418604651163,
+      "prompt_loose_accuracy": 73.83333333333333,
+      "instruction_loose_accuracy": 76.16279069767442,
+      "num_entries": 300,
+      "avg_tokens": 5207,
+      "gen_seconds": 1717,
+      "reasoning_tokens_statistics": {
+        "avg": 4797.631666666667,
+        "std_dev_across_runs": 564.763829111091,
+        "avg_sample_std_dev": 1869.1495662302912,
+        "std_err_across_runs": 399.3483333333329
+      },
+      "answer_tokens_statistics": {
+        "avg": 410.215,
+        "std_dev_across_runs": 3.306902713349094,
+        "avg_sample_std_dev": 51.20160202571792,
+        "std_err_across_runs": 2.338333333333338
+      },
+      "prompt_statistics": {
+        "avg": 0.7091666666666666,
+        "std_dev_across_runs": 0.001178511301977528,
+        "avg_sample_std_dev": 0.08838834764831834,
+        "std_err_across_runs": 0.0008333333333332971
+      },
+      "instruction_statistics": {
+        "avg": 0.8408333333333333,
+        "std_dev_across_runs": 0.0011785113019776065,
+        "avg_sample_std_dev": 0.0954594154601838,
+        "std_err_across_runs": 0.0008333333333333526
+      }
+    }
+  }
+}
