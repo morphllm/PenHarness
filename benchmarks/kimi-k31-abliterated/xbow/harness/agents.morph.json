@@ -1,0 +1,70 @@
+{
+    "_comment": "Morph Kimi K3 ablation study. OpenCode CLI (native prompt/toolset) driving two Morph-hosted checkpoints: the post-trained model and its abliterated variant. Everything except the model id is held identical between the two arms. Prices are set to 0 and the cost cap high because billing here is internal; the wall-clock timeout is the real stopping guard.",
+    "_shared_env": {
+        "AGENT_REASONING_EFFORT": "medium",
+        "AGENT_COST_CAP_USD": "1000",
+        "PRICE_INPUT_PER_M": "0",
+        "PRICE_CACHED_PER_M": "0",
+        "PRICE_OUTPUT_PER_M": "0",
+        "OPENCODE_PROVIDER_ID": "morph",
+        "OPENCODE_PROVIDER_NPM": "@ai-sdk/openai-compatible",
+        "OPENCODE_PROVIDER_NAME": "Morph",
+        "OPENCODE_PROVIDER_BASE_URL": "https://api.morphllm.com/v1",
+        "OPENCODE_PROVIDER_API_KEY_ENV": "MORPH_API_KEY",
+        "OPENCODE_MODEL_CONTEXT_LIMIT": "262144",
+        "OPENCODE_MODEL_OUTPUT_LIMIT": "32768",
+        "OPENCODE_TIMEOUT_SECONDS": "3600"
+    },
+    "agents": [
+        {
+            "name": "morph-kimik3",
+            "type": "command",
+            "command": ["uv", "run", "python", "{harness_root}/examples/opencode_cli_agent.py"],
+            "input_format": "json",
+            "output_format": "json",
+            "timeout_seconds": 3600,
+            "cwd": "{harness_root}",
+            "env": {
+                "OPENCODE_MODEL_ID": "morph-kimik3",
+                "OPENCODE_PROVIDER_ID": "morph",
+                "OPENCODE_PROVIDER_NPM": "@ai-sdk/openai-compatible",
+                "OPENCODE_PROVIDER_NAME": "Morph",
+                "OPENCODE_PROVIDER_BASE_URL": "https://api.morphllm.com/v1",
+                "OPENCODE_PROVIDER_API_KEY_ENV": "MORPH_API_KEY",
+                "OPENCODE_MODEL_CONTEXT_LIMIT": "262144",
+                "OPENCODE_MODEL_OUTPUT_LIMIT": "32768",
+                "OPENCODE_TIMEOUT_SECONDS": "3600",
+                "AGENT_REASONING_EFFORT": "medium",
+                "AGENT_COST_CAP_USD": "1000",
+                "PRICE_INPUT_PER_M": "0",
+                "PRICE_CACHED_PER_M": "0",
+                "PRICE_OUTPUT_PER_M": "0"
+            }
+        },
+        {
+            "name": "morph-kimik3-abliterated",
+            "type": "command",
+            "command": ["uv", "run", "python", "{harness_root}/examples/opencode_cli_agent.py"],
+            "input_format": "json",
+            "output_format": "json",
+            "timeout_seconds": 3600,
+            "cwd": "{harness_root}",
+            "env": {
+                "OPENCODE_MODEL_ID": "morph-kimik3-abliterated",
+                "OPENCODE_PROVIDER_ID": "morph",
+                "OPENCODE_PROVIDER_NPM": "@ai-sdk/openai-compatible",
+                "OPENCODE_PROVIDER_NAME": "Morph",
+                "OPENCODE_PROVIDER_BASE_URL": "https://api.morphllm.com/v1",
+                "OPENCODE_PROVIDER_API_KEY_ENV": "MORPH_API_KEY",
+                "OPENCODE_MODEL_CONTEXT_LIMIT": "262144",
+                "OPENCODE_MODEL_OUTPUT_LIMIT": "32768",
+                "OPENCODE_TIMEOUT_SECONDS": "3600",
+                "AGENT_REASONING_EFFORT": "medium",
+                "AGENT_COST_CAP_USD": "1000",
+                "PRICE_INPUT_PER_M": "0",
+                "PRICE_CACHED_PER_M": "0",
+                "PRICE_OUTPUT_PER_M": "0"
+            }
+        }
+    ]
+}

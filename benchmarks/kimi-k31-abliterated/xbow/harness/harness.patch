@@ -1,0 +1,75 @@
+diff --git a/examples/opencode_cli_agent.py b/examples/opencode_cli_agent.py
+index 287e97c..c9bf581 100644
+--- a/examples/opencode_cli_agent.py
++++ b/examples/opencode_cli_agent.py
+@@ -158,13 +158,49 @@ def _write_reasoning_config(provider: str, model: str, effort: str, run_dir: str
+     """Write a minimal opencode config that pins the gpt-5 reasoning effort (the
+     only way to set it for opencode). Returns its path for OPENCODE_CONFIG. Sets
+     ONLY the model option — the default agent/prompt is untouched (Option A).
++
++    For a non-builtin OpenAI-compatible provider (see MORPH_LLM_PATCH.md), the same
++    file also declares the provider: npm package, baseURL, api key env ref and the
++    model's context/output limits. Those come from env vars so no model name or
++    URL is hardcoded:
++      OPENCODE_PROVIDER_NPM          e.g. @ai-sdk/openai-compatible
++      OPENCODE_PROVIDER_BASE_URL     e.g. https://api.morphllm.com/v1
++      OPENCODE_PROVIDER_API_KEY_ENV  name of the env var holding the key
++      OPENCODE_MODEL_CONTEXT_LIMIT   context window in tokens
++      OPENCODE_MODEL_OUTPUT_LIMIT    max output tokens per response
+     """
+     try:
+         path = Path(run_dir) / "opencode-reasoning.json"
+-        config = {
+-            "$schema": "https://opencode.ai/config.json",
+-            "provider": {provider: {"models": {model: {"options": {"reasoningEffort": effort}}}}},
+-        }
++        send_effort = env_value("OPENCODE_SEND_REASONING_EFFORT", "1").strip() not in ("", "0", "false")
++        model_entry: dict[str, Any] = {}
++        if send_effort:
++            model_entry["options"] = {"reasoningEffort": effort}
++        provider_entry: dict[str, Any] = {"models": {model: model_entry}}
++
++        npm_pkg = env_value("OPENCODE_PROVIDER_NPM", "")
++        base_url = env_value("OPENCODE_PROVIDER_BASE_URL", "")
++        if npm_pkg and base_url:
++            # OpenAI-compatible third-party provider. A large output cap is set
++            # explicitly: a reasoning model that hits a small default truncates
++            # mid-thought and never emits a final answer.
++            key_env = env_value("OPENCODE_PROVIDER_API_KEY_ENV", "MORPH_API_KEY")
++            provider_entry["npm"] = npm_pkg
++            provider_entry["name"] = env_value("OPENCODE_PROVIDER_NAME", provider)
++            provider_entry["options"] = {
++                "baseURL": base_url,
++                "apiKey": f"{{env:{key_env}}}",
++            }
++            limit: dict[str, int] = {}
++            context_limit = env_value("OPENCODE_MODEL_CONTEXT_LIMIT", "")
++            output_limit = env_value("OPENCODE_MODEL_OUTPUT_LIMIT", "")
++            if context_limit:
++                limit["context"] = int(context_limit)
++            if output_limit:
++                limit["output"] = int(output_limit)
++            if limit:
++                model_entry["limit"] = limit
++
++        config = {"$schema": "https://opencode.ai/config.json", "provider": {provider: provider_entry}}
+         path.write_text(json.dumps(config), encoding="utf-8")
+         return str(path)
+     except OSError:
+diff --git a/examples/sandbox.py b/examples/sandbox.py
+index cd6b2a6..9da018c 100644
+--- a/examples/sandbox.py
++++ b/examples/sandbox.py
+@@ -72,6 +72,12 @@ def jail_command(
+     ]
+     if os.path.exists("/usr/bin/docker"):
+         args += ["--ro-bind", "/dev/null", "/usr/bin/docker"]  # neutralize the CLI too
++    # Keep glibc name resolution working: Ubuntu/Debian resolve through
++    # systemd-resolved's varlink socket under /run, which the fresh /run tmpfs
++    # above would otherwise hide (every DNS lookup then fails, and the agent
++    # CLI reports "cannot connect to API"). Bind only that subtree back.
++    if os.path.isdir("/run/systemd/resolve"):
++        args += ["--ro-bind", "/run/systemd/resolve", "/run/systemd/resolve"]
+     for src, dst in ro_binds or []:
+         args += ["--ro-bind", src, dst]
+     for src, dst in rw_binds or []:

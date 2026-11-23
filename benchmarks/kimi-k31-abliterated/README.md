@@ -13,8 +13,9 @@
 | IFBench (avg score / prompt-strict) | **71.9% / 68.0%** | — |
 | Terminal-Bench 4.0 (terminus-2) | **18/46 graded = 39.1%** (18/66 strict = 27.3%) | published base ~65.7 |
 | ExploitGym (sample, ARTEX harness) | **0/20** | codex+our-model baseline 0/20; see §3 |
+| XBOW validation, 63 scored tasks | **84.1%** (53/63) | OpenCode+GPT-5 on the same 63: 68.3%; see §4 |
 
-**Headline:** abliteration **preserved** knowledge/reasoning (AIME/GPQA/IFBench ≈ base) and left **meaningful** agentic-coding ability (TB ~39%, a conservative floor — see §2). It did **not** add autonomous 0-day exploitation capability (ExploitGym, §3) — but neither does almost any model, and our 20-task slice is the hardest part of that benchmark.
+**Headline:** abliteration **preserved** knowledge/reasoning (AIME/GPQA/IFBench ≈ base) and left **meaningful** agentic-coding ability (TB ~39%, a conservative floor — see §2) and **strong black-box web exploitation** (XBOW 84.1% on a subset where GPT-5 scores 68.3%, §4). It did **not** add autonomous 0-day exploitation capability (ExploitGym, §3) — but neither does almost any model, and our 20-task slice is the hardest part of that benchmark.
 
 ---
 
@@ -78,12 +79,29 @@ The LLM path was bridged into the firewalled task container with a forwarder sid
 
 ---
 
+## 4. XBOW validation benchmarks — black-box web exploitation (`xbow/`)
+
+104 public XBOW challenges driven by OpenCode 1.17.7 under the krodalabs harness (bwrap jail, no Docker socket, fresh flag planted per run, exact-match scoring). 1 pass, 8 workers, 3600 s/task budget, on `skeptrune-thelio`.
+
+- **53 of the 63 tasks that scored were solved = 84.1%.**
+- On that identical 63-task subset, **OpenCode + GPT-5 solved 43 = 68.3%** (taken from the harness paper's own per-challenge results, union of its two passes against our single pass).
+- We solved 11 challenges it missed; it solved one we missed.
+- 41 tasks never scored: cold-cache image-build failures (14 registry DNS, 13 apt-get, 11 `mysql:5.7.15` content-store race, 1 npm). 8 of the 10 recorded misses are zero-token 3600 s hangs, not model failures — so 84.1% is a floor.
+
+Cost profile: 6.6M input / 90k output tokens across 63 runs, median 550 s and 10 tool calls per solve (GPT-5: 77 s median). Roughly 7× slower and 9× cheaper in tokens.
+
+Full detail, per-task scores and transcripts: `xbow/README.md`. Note the suite is saturated and has entered training corpora, so the controlled ablation — not the absolute number — is the point.
+
+---
+
 ## Where everything lives
 
 - **ARTEX harness adapter:** `exploitgym/artex.py` (also lands in the ExploitGym repo at `src/cybergym/evaluation/agents/artex.py`, registered in `examples/run_agent.py` as `--agent artex`).
 - **Compute:** boat VM `bx_nuraey5p` (resume: `boat resume bx_nuraey5p`). ExploitGym at `~/exploitgym`, ARTEX source at `~/artex-global`, static ARTEX binary at `/tmp/artex-static`, static curl/jq at `/tmp/{curl,jq}-static`.
 - **Engine:** reached from the VM at `localhost:18600` via `boat forward bx_nuraey5p --reverse --local 18600 --remote 18600` ← this box's `kubectl port-forward` to the rack1 abliterated frontend.
 - **Intelligence + TB harness:** skeptrune `~/git_projects/morph/tmp/k31-intel-eval/` (`run_arm.sh`, `tb_run.sh`).
+- **XBOW harness + results:** `xbow/` here. Runs on `skeptrune-thelio:~/xbow/` (harness, repaired benchmark checkout, `results-morph/`).
+- **BountyBench harness:** `bountybench/` here, ported to boat VM `bx_2xeaupdc:~/bountybench` (not yet scored).
 
 ## Reproduce ExploitGym (ARTEX)
 
