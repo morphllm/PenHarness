@@ -102,6 +102,7 @@ Full detail, per-task scores and transcripts: `xbow/README.md`. Note the suite i
 - **Intelligence + TB harness:** skeptrune `~/git_projects/morph/tmp/k31-intel-eval/` (`run_arm.sh`, `tb_run.sh`).
 - **XBOW harness + results:** `xbow/` here. Runs on `skeptrune-thelio:~/xbow/` (harness, repaired benchmark checkout, `results-morph/`).
 - **BountyBench harness:** `bountybench/` here, ported to boat VM `bx_2xeaupdc:~/bountybench` (not yet scored).
+- **Published baselines for comparison** (other models on XBOW, BountyBench, AutoPenBench, plus government Kimi cyber evals): `PUBLISHED-BASELINES.md`.
 
 ## Reproduce ExploitGym (ARTEX)
 
