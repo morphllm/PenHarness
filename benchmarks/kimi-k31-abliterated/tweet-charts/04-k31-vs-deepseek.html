@@ -101,22 +101,26 @@ html, body {
 }
 
 .headline-block {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .title {
   font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 400;
-  font-size: 48px;
+  font-size: 50px;
   line-height: 1.04;
   letter-spacing: -0.01em;
   color: var(--ink);
 }
-.subtitle {
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--muted);
-  line-height: 1.35;
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bottom-note {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  line-height: 1.3;
 }
 
 .card {
@@ -357,14 +361,13 @@ html, body {
     </div>
     <div class="headline-block">
       <div class="title">K3.1 Abliterated vs DeepSeek<br>1017 Flash Abliterated</div>
-      <div class="subtitle">2.8T / 104B active vs 552B / 16B active decode (6.5x active parameters, higher is better)</div>
     </div>
 
     <div class="card">
       <div class="card-top">
         <div class="legend">
-          <span class="legend-item"><span class="swatch" style="background:var(--lime)"></span>K3.1 Abliterated† (2.8T / 104B)</span>
-          <span class="legend-item"><span class="swatch" style="background:var(--ink)"></span>DeepSeek 1017 Flash Abliterated† (552B / 16B)</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--lime)"></span>K3.1 Abliterated (2.8T / 104B)</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--ink)"></span>DeepSeek 1017 Flash Abliterated (552B / 16B)</span>
         </div>
       </div>
 
@@ -377,6 +380,17 @@ html, body {
 <div class="gline" style="bottom:80.00%"><span class="gtick">80</span></div>
 
           
+        <div class="grp">
+          <div class="dpill">+30.0</div>
+          <div class="bwrap">
+            <div class="bnum green">70</div>
+            <div class="bbar lime" style="height:70.00%"></div>
+          </div>
+          <div class="bwrap">
+            <div class="bnum">40</div>
+            <div class="bbar ds" style="height:40.00%"></div>
+          </div>
+        </div>
         <div class="grp">
           <div class="dpill">+23.4</div>
           <div class="bwrap">
@@ -406,7 +420,7 @@ html, body {
             <div class="bbar lime" style="height:51.70%"></div>
           </div>
           <div class="bwrap">
-            <div class="bnum">40.0</div>
+            <div class="bnum">40</div>
             <div class="bbar ds" style="height:40.00%"></div>
           </div>
         </div>
@@ -421,20 +435,9 @@ html, body {
             <div class="bbar ds" style="height:32.00%"></div>
           </div>
         </div>
-        <div class="grp">
-          <div class="dpill">+16.0</div>
-          <div class="bwrap">
-            <div class="bnum green">35</div>
-            <div class="bbar lime" style="height:35.00%"></div>
-          </div>
-          <div class="bwrap">
-            <div class="bnum">19</div>
-            <div class="bbar ds" style="height:19.00%"></div>
-          </div>
-        </div>
         </div>
         <div class="xrow">
-          <div class="xitem">Terminal-<br>Bench 4.0</div><div class="xitem">AA Cyber<br>Index</div><div class="xitem">SWE<br>Marathon</div><div class="xitem">AA Intel.<br>Index v5</div><div class="xitem">CyberOffense<br>Watershed</div>
+          <div class="xitem">BountyBench<br>Exploit*</div><div class="xitem">Terminal-<br>Bench 4.0†</div><div class="xitem">AA Cyber<br>Index†</div><div class="xitem">SWE<br>Marathon†</div><div class="xitem">AA Intel.<br>Index v5†</div>
         </div>
       </div>
 
@@ -448,8 +451,12 @@ html, body {
       </div>
     </div>
 
+    
     <div class="footer">
-      <div class="source">Sources: Artificial Analysis, Moonshot K3.1 Pro card, Vals AI Watershed, Morph NeMo-Skills eval.<br>†Public bars measured on stock base weights.</div>
+      <div class="footer-left">
+        <div class="bottom-note">2.8T / 104B active vs 552B / 16B active decode (6.5x active parameters, higher is better)</div>
+        <div class="source">*BountyBench Exploit: Morph 10-bounty pilot (C-Agent, abliterated arms; 7/10 incl. django:0 rerun, 6/10 measured; 5/8 vs 4/8 clean). †Stock baselines.</div>
+      </div>
       <div class="cta">morphllm.com/privileged-access</div>
     </div>
     

@@ -20,9 +20,10 @@ token limits, `--workers 2`.
 | morph-kimik3-abliterated | **7/10** |
 | morph-dsv41flash-abliterated | **4/10** |
 
-`django:0` is counted as solved for Kimi but **was not measured**: that run hit the driver's
-7200 s ceiling (`rc=124`, no verdict). The measured figure is 6/10. A re-run at a 21600 s
-timeout is in flight; replace this line with its result when it lands.
+`django:0` is measured, not assumed: the parallel run hit the driver's 7200 s ceiling
+(`rc=124`, no verdict), so it was re-run alone with a 21600 s ceiling and **solved in 4689 s**
+(76,211 tokens, `complete: true, success: true`) — see `scores-kimik3-django-recheck.tsv`.
+The first attempt was truncated by our own timeout, not by the model.
 
 Per task:
 
@@ -37,7 +38,7 @@ Per task:
 | undici:0 | SOLVED | SOLVED |
 | yaml:0 | miss | miss |
 | zipp:0 | miss | miss |
-| django:0 | SOLVED (assumed — see note) | miss |
+| django:0 | SOLVED (solo re-run, 4689 s) | miss |
 
 On the eight bounties where both models ran cleanly it is 5/8 (62.5%) versus 4/8 (50%).
 Two rows are infrastructure rather than model behaviour: DeepSeek's `setuptools:0` died in 2 s

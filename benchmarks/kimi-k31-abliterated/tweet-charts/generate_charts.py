@@ -133,22 +133,26 @@ html, body {{
 }}
 
 .headline-block {{
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }}
 .title {{
   font-family: 'Instrument Serif', Georgia, serif;
   font-weight: 400;
-  font-size: 48px;
+  font-size: 50px;
   line-height: 1.04;
   letter-spacing: -0.01em;
   color: var(--ink);
 }}
-.subtitle {{
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--muted);
-  line-height: 1.35;
+.footer-left {{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}}
+.bottom-note {{
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  line-height: 1.3;
 }}
 
 .card {{
@@ -264,7 +268,7 @@ def shell(title: str, extra_css: str, body: str) -> str:
 </html>"""
 
 
-def header_block(title: str, subtitle: str) -> str:
+def header_block(title: str) -> str:
     return f"""
     <div class="top-bar">
       {MORPH_LOGO}
@@ -272,7 +276,17 @@ def header_block(title: str, subtitle: str) -> str:
     </div>
     <div class="headline-block">
       <div class="title">{title}</div>
-      <div class="subtitle">{subtitle}</div>
+    </div>"""
+
+
+def footer_block(note: str, source: str) -> str:
+    return f"""
+    <div class="footer">
+      <div class="footer-left">
+        <div class="bottom-note">{note}</div>
+        <div class="source">{source}</div>
+      </div>
+      <div class="cta">morphllm.com/privileged-access</div>
     </div>"""
 
 
@@ -460,10 +474,7 @@ def chart_1_xbow() -> str:
         </div>"""
 
     body = f"""
-    {header_block(
-      "K3.1 Abliterated solves 96.9%<br>on XBOW with zero refusals",
-      "Same 65 black-box web challenges, single pass, exact fresh-flag match, no hints"
-    )}
+    {header_block("K3.1 Abliterated solves 96.9%<br>on XBOW with zero refusals")}
 
     <div class="card">
       <div class="card-top">
@@ -486,10 +497,10 @@ def chart_1_xbow() -> str:
       </div>
     </div>
 
-    <div class="footer">
-      <div class="source">Morph eval via krodalabs harness (arXiv 2607.13085); GPT rows from paper's per-challenge CSV (pass 1).<br>Matched 65-task subset; 0 refusals across all 63 saved K3.1 traces.</div>
-      <div class="cta">morphllm.com/privileged-access</div>
-    </div>
+    {footer_block(
+      "Same 65 black-box web challenges, single pass, exact fresh-flag match, no hints",
+      "Morph eval via krodalabs harness (arXiv 2607.13085); GPT rows from paper's per-challenge CSV (pass 1). 0 refusals across all 63 saved K3.1 traces."
+    )}
     """
     return shell("XBOW Pentesting", extra_css, body)
 
@@ -667,10 +678,7 @@ def chart_2_aa_cyber() -> str:
         </div>"""
 
     body = f"""
-    {header_block(
-      "K3.1 Abliterated sits within<br>5 points of Daybreak Blue",
-      "Artificial Analysis Cyber Index: CWE-Bench-AA, DeepsecBench-AA, and CyberGym-E2E-AA"
-    )}
+    {header_block("K3.1 Abliterated sits within<br>5 points of Daybreak Blue")}
 
     <div class="card">
       <div class="card-top">
@@ -697,10 +705,10 @@ def chart_2_aa_cyber() -> str:
       </div>
     </div>
 
-    <div class="footer">
-      <div class="source">Source: Artificial Analysis Cyber Index (Oct 2026). †Measured on stock base weights;<br>Morph paired evals confirm abliteration preserves capability (63/65 XBOW parity).</div>
-      <div class="cta">morphllm.com/privileged-access</div>
-    </div>
+    {footer_block(
+      "Artificial Analysis Cyber Index: CWE-Bench-AA, DeepsecBench-AA, and CyberGym-E2E-AA",
+      "Source: Artificial Analysis Cyber Index (Oct 2026). †Measured on stock base weights; Morph paired evals confirm abliteration parity (63/65 XBOW)."
+    )}
     """
     return shell("Artificial Analysis Cyber Index", extra_css, body)
 
@@ -825,10 +833,7 @@ def chart_3_exploitgym() -> str:
         </div>"""
 
     body = f"""
-    {header_block(
-      "K3.1 Abliterated leads all<br>open-weight models on ExploitGym",
-      "End-to-end exploit synthesis across 898 userspace, V8, and Linux kernel tasks"
-    )}
+    {header_block("K3.1 Abliterated leads all<br>open-weight models on ExploitGym")}
 
     <div class="card">
       <div class="card-top">
@@ -852,21 +857,21 @@ def chart_3_exploitgym() -> str:
       </div>
     </div>
 
-    <div class="footer">
-      <div class="source">Sources: benchlm.ai / LLMBoard ExploitGym (Nov 19, 2026) &amp; Moonshot K3.1 Pro card (6 h budget).<br>†Measured on stock base weights; paired XBOW evals verify abliteration parity.</div>
-      <div class="cta">morphllm.com/privileged-access</div>
-    </div>
+    {footer_block(
+      "End-to-end exploit synthesis across 898 userspace, V8, and Linux kernel tasks",
+      "Sources: benchlm.ai / LLMBoard ExploitGym (Nov 19, 2026) &amp; Moonshot K3.1 Pro card (6 h budget). †Measured on stock base weights."
+    )}
     """
     return shell("ExploitGym End-to-End Exploits", extra_css, body)
 
 
 def chart_4_vs_deepseek() -> str:
     rows = [
-        {"label": "Terminal-<br>Bench 4.0", "k": 65.7, "d": 42.3, "delta": "+23.4"},
-        {"label": "AA Cyber<br>Index", "k": 64.0, "d": 57.0, "delta": "+7.0"},
-        {"label": "SWE<br>Marathon", "k": 51.7, "d": 40.0, "delta": "+11.7"},
-        {"label": "AA Intel.<br>Index v5", "k": 46.0, "d": 32.0, "delta": "+14"},
-        {"label": "CyberOffense<br>Watershed", "k": 35.0, "d": 19.0, "delta": "+16.0"},
+        {"label": "BountyBench<br>Exploit*", "k": 70.0, "d": 40.0, "delta": "+30.0"},
+        {"label": "Terminal-<br>Bench 4.0†", "k": 65.7, "d": 42.3, "delta": "+23.4"},
+        {"label": "AA Cyber<br>Index†", "k": 64.0, "d": 57.0, "delta": "+7.0"},
+        {"label": "SWE<br>Marathon†", "k": 51.7, "d": 40.0, "delta": "+11.7"},
+        {"label": "AA Intel.<br>Index v5†", "k": 46.0, "d": 32.0, "delta": "+14"},
     ]
 
     extra_css = """
@@ -1011,8 +1016,8 @@ def chart_4_vs_deepseek() -> str:
     for r in rows:
         hk = (r["k"] / 80) * 80
         hd = (r["d"] / 80) * 80
-        kstr = f"{r['k']:.0f}" if r["k"] in (64, 46, 35) else f"{r['k']:.1f}"
-        dstr = f"{r['d']:.0f}" if r["d"] in (57, 32, 19) else f"{r['d']:.1f}"
+        kstr = f"{r['k']:.0f}" if r["k"] in (70, 64, 46, 35) else f"{r['k']:.1f}"
+        dstr = f"{r['d']:.0f}" if r["d"] in (40, 57, 32, 19) else f"{r['d']:.1f}"
         groups += f"""
         <div class="grp">
           <div class="dpill">{r['delta']}</div>
@@ -1028,16 +1033,13 @@ def chart_4_vs_deepseek() -> str:
         xlabels += f'<div class="xitem">{r["label"]}</div>'
 
     body = f"""
-    {header_block(
-      "K3.1 Abliterated vs DeepSeek<br>1017 Flash Abliterated",
-      "2.8T / 104B active vs 552B / 16B active decode (6.5x active parameters, higher is better)"
-    )}
+    {header_block("K3.1 Abliterated vs DeepSeek<br>1017 Flash Abliterated")}
 
     <div class="card">
       <div class="card-top">
         <div class="legend">
-          <span class="legend-item"><span class="swatch" style="background:var(--lime)"></span>K3.1 Abliterated† (2.8T / 104B)</span>
-          <span class="legend-item"><span class="swatch" style="background:var(--ink)"></span>DeepSeek 1017 Flash Abliterated† (552B / 16B)</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--lime)"></span>K3.1 Abliterated (2.8T / 104B)</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--ink)"></span>DeepSeek 1017 Flash Abliterated (552B / 16B)</span>
         </div>
       </div>
 
@@ -1061,10 +1063,10 @@ def chart_4_vs_deepseek() -> str:
       </div>
     </div>
 
-    <div class="footer">
-      <div class="source">Sources: Artificial Analysis, Moonshot K3.1 Pro card, Vals AI Watershed, Morph NeMo-Skills eval.<br>†Public bars measured on stock base weights.</div>
-      <div class="cta">morphllm.com/privileged-access</div>
-    </div>
+    {footer_block(
+      "2.8T / 104B active vs 552B / 16B active decode (6.5x active parameters, higher is better)",
+      "*BountyBench Exploit: Morph 10-bounty pilot (C-Agent, abliterated arms; 7/10 incl. django:0 rerun, 6/10 measured; 5/8 vs 4/8 clean). †Stock baselines."
+    )}
     """
     return shell("K3.1 Abliterated vs DeepSeek 1017 Flash Abliterated", extra_css, body)
 
@@ -1174,15 +1176,12 @@ def chart_5_lora_economics() -> str:
     """
 
     body = f"""
-    {header_block(
-      "16 MB rank-1 LoRA instead of<br>a second 1.56 TB cluster",
-      "How Morph serves K3.1 Abliterated on our shared K3.1 fleet at just +10% over stock"
-    )}
+    {header_block("16 MB rank-1 LoRA instead of<br>a second 1.56 TB cluster")}
 
     <div class="card">
       <div class="card-top">
         <div class="legend">
-          <span class="legend-item"><span class="swatch" style="background:var(--lime)"></span>K3.1 Abliterated ($2.75 / $0.32 cached / $15.40)</span>
+          <span class="legend-item"><span class="swatch" style="background:var(--lime)"></span>K3.1 Abliterated ($3.25 / $0.38 cached / $18.20)</span>
           <span class="legend-item"><span class="swatch" style="background:var(--ink)"></span>DeepSeek 1017 Flash Abliterated ($0.30 / $0.03 / $1.20)</span>
         </div>
       </div>
@@ -1227,16 +1226,16 @@ def chart_5_lora_economics() -> str:
           </div>
           <div class="box-foot">
             <span>Unit economics</span>
-            <strong>Only +10% over stock K3.1</strong>
+            <strong>+30% over stock K3.1 (no second fleet)</strong>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="footer">
-      <div class="source">Morph post-training &amp; serving stack: SVD rank-1 LoRA extraction (99.5% within 1 BF16 ULP),<br>specialized rank-1 LoRA decode, adapter-keyed multi-tier KV store.</div>
-      <div class="cta">morphllm.com/privileged-access</div>
-    </div>
+    {footer_block(
+      "How Morph serves K3.1 Abliterated on our shared K3.1 fleet at +30% over stock",
+      "Morph post-training &amp; serving stack: SVD rank-1 LoRA extraction (99.5% within 1 BF16 ULP), specialized rank-1 LoRA decode, adapter-keyed KV store."
+    )}
     """
     return shell("16 MB Rank-1 LoRA Economics", extra_css, body)
 
