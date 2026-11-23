@@ -128,3 +128,51 @@ Not defensible:
   NexBench and Fireworks' CyberGym.
 - Any claim that mixes a stock-model public number with our abliterated-model numbers
   without saying which is which.
+
+## Refusal rates
+
+The abliteration argument, with sources. Two different measurements get conflated; they are
+kept apart below deliberately.
+
+### Refusals on clearly harmful prompts
+
+Mean of JailbreakBench, HarmBench and StrongREJECT, as compiled by
+[Frontier Log](https://frontierlog.ai/stories/abliteration-removes-refusals) from Anthropic's
+test and Morph's own run. Anthropic's figures are with **safeguards disabled** — its classifiers
+and monitoring off — so they measure the model's own refusals.
+
+| Model | Refusal rate |
+|---|---|
+| Claude Mythos Preview (safeguards disabled) | 96% |
+| Claude Opus 4.8 (safeguards disabled) | 96% |
+| Claude Opus 5 (safeguards disabled) | 95% |
+| GLM-5.3, stock → abliterated | 95% → 6% |
+| GLM-5.3-Flash, stock → abliterated | 95% → 14% |
+| **Morph DeepSeek V4.1 Flash, stock → abliterated** | **100% → 2%** |
+
+The point of that comparison: disabling safeguards does not remove a proprietary model's own
+refusals (95–96% survive), while abliteration does. Morph's abliterated DeepSeek also scored
+87.6% on IFEval strict (88.7% stock) and 84.0% on MMLU-Pro (83.1% stock).
+
+### Refusals on malicious security requests (vendor system cards)
+
+Anthropic, Claude Code malicious-request refusal rates — dual-use and benign assistance in
+brackets: Claude Mythos 5.2 82.8% (98.2%), Mythos 5.1 88.5% (99.3%), Mythos 5 90.3% (99.6%),
+Opus 5.5 81.0% (100%). Malicious computer-use refusal: Mythos 5.2 88.4%, Mythos 5.1 87.5%.
+
+### Daybreak Blue
+
+- Artificial Analysis Cyber Index: Daybreak Blue "hits no safety blocks across the entire
+  Index", and scores **32 points above** the publicly available GPT-6 Sol — refusals were
+  costing the public model a third of its score.
+- Advanced Cyber Completion Rate (ACCR): GPT-5.6 Sol with standard safeguards completes 1.5%,
+  through Daybreak Blue 2.0%, GPT-5.5-Cyber 57.3%, GPT-5.6-Cyber 95.0%.
+- Cybench (cost-aware agent evaluation): GPT-5.6 Sol refused **90.6%** of challenges; Claude
+  Fable 5 had all sample-epochs content-filtered.
+- Kimi K3.1 Pro recorded **no safety refusals** on the Cyber Index.
+
+### The trap
+
+ACCR's "2.0%" is a **completion** rate on a narrow internal set of advanced-cyber prompts; read
+as a refusal rate it says 98%, while the Cyber Index measures the same configuration as
+refusing nothing. Never put those two numbers side by side without saying which is which.
