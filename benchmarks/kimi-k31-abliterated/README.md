@@ -15,6 +15,7 @@
 | ExploitGym (sample, ARTEX harness) | **0/20** | codex+our-model baseline 0/20; see §3 |
 | XBOW validation, matched subset | **63/65 solved (96.9%)** | abliterated DeepSeek V4.1: 63/65; see §4 |
 | Public reference: AA Cyber Index | Kimi K3.1 **64%** | Daybreak Blue 69%, DeepSeek V4.1 Flash 57%; see §5 |
+| BountyBench exploit, 10-bounty pilot | **7/10** (6 measured) | abliterated DeepSeek V4.1: 4/10; see `bountybench/` |
 
 **Headline:** abliteration **preserved** knowledge/reasoning (AIME/GPQA/IFBench ≈ base) and left **meaningful** agentic-coding ability (TB ~39%, a conservative floor — see §2) and **strong black-box web exploitation** (XBOW 84.1% on a subset where GPT-5 scores 68.3%, §4). It did **not** add autonomous 0-day exploitation capability (ExploitGym, §3) — but neither does almost any model, and our 20-task slice is the hardest part of that benchmark.
 
@@ -117,7 +118,7 @@ abliterated V4.1 solve an identical 63/65 on XBOW.
 - **Engine:** reached from the VM at `localhost:18600` via `boat forward bx_nuraey5p --reverse --local 18600 --remote 18600` ← this box's `kubectl port-forward` to the rack1 abliterated frontend.
 - **Intelligence + TB harness:** skeptrune `~/git_projects/morph/tmp/k31-intel-eval/` (`run_arm.sh`, `tb_run.sh`).
 - **XBOW harness + results:** `xbow/` here. Runs on `skeptrune-thelio:~/xbow/` (harness, repaired benchmark checkout, `results-morph/`).
-- **BountyBench harness:** `bountybench/` here, ported to boat VM `bx_2xeaupdc:~/bountybench` (not yet scored).
+- **BountyBench harness + results:** `bountybench/` here; runs on boat VM `bx_2xeaupdc:~/bountybench`. 10-bounty exploit pilot: Kimi 7/10 (6 measured), DeepSeek 4/10.
 - **Published baselines for comparison** (other models on XBOW, BountyBench, AutoPenBench, plus government Kimi cyber evals): `PUBLISHED-BASELINES.md`.
 
 ## Reproduce ExploitGym (ARTEX)

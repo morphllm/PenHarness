@@ -7,7 +7,7 @@ Published scores from other models on the pentest benches we run against `morph-
 | Bench | Our harness | Our results |
 |---|---|---|
 | XBOW 104 | OpenCode 1.17.7 via `krodalabs/coding-agent-research-artifact` ("Baselines Before Architecture") | `xbow/`, README §4 |
-| BountyBench | C-Agent (bundled), with the Morph provider patch | `bountybench/` (not yet scored) |
+| BountyBench | C-Agent (bundled), with the Morph provider patch | `bountybench/` — 10-bounty exploit pilot: Kimi 7/10 (6 measured), DeepSeek 4/10 |
 | AutoPenBench | The paper's agent, patched | not yet run |
 | HTB AI Range | Dropped: no self-serve path | see [`../feasibility/XBOW-HTB-REPORT.md`](../feasibility/XBOW-HTB-REPORT.md) |
 
