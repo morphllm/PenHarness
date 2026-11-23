@@ -166,7 +166,7 @@ Optional, only if Nick asks: stock Kimi on XBOW (shows abliteration doesn't hurt
 - **No infrastructure details:** no GPU models, rack, cluster or region names. "Our own clusters" is as specific as it gets.
 - **No em dashes.**
 - **Every number** must come from this doc or its sources, and third-party numbers are credited to whoever produced them (Moonshot, the paper, OpenRouter). No third-party numbers about the abliterated model itself.
-- **Prices:** Kimi Abliterated launched publicly on 2026-11-23 (landing PR #882): $2.75 input, $0.319 cached input, $15.40 output per 1M tokens (`CHAT_KIMIABLITERATED_*` in `landing/src/lib/pricing.ts`). Ultra does not cover it. Re-read pricing.ts before quoting.
+- **Prices:** Kimi Abliterated launched publicly on 2026-11-23 (landing PR #882) and was repriced the same day to 30% over Kimi K3.1 (landing PR #884): $3.25 input, $0.377 cached input, $18.20 output per 1M tokens (`CHAT_KIMIABLITERATED_*` in `landing/src/lib/pricing.ts`). Ultra does not cover it. Re-read pricing.ts before quoting.
 - **Voice:** if the byline is Nick, read `~/.claude/skills/my-writing-style/SKILL.md` first. If it's Tejas, match the DeepSeek post.
 
 ## Where things go
