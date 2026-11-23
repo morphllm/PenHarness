@@ -9,6 +9,8 @@ Write a blog post for morphllm.com, plus the charts that go in it, about `morph-
 1. **On security work, Kimi K3.1 Abliterated does the job without refusing, and it's the strongest zero-refusal pentester we've tested.** It should be clearly better than our other abliterated model, DeepSeek V4.1 Flash Abliterated.
 2. **Removing the refusals didn't make it dumber.** Abliterated Kimi scores the same as stock Kimi.
 
+**Never mention any third-party checkpoint, model card, Hugging Face repo or outside lab in connection with this model.** It is Morph's Kimi K3.1 Abliterated, full stop. Every refusal or capability number in the post comes from our own runs.
+
 Both claims are only partly backed by data today. The table in "Claims" below says exactly what you can say now and what has to wait for the runs listed in "Gaps". Don't write around a gap; mark it `TODO(data)` in the draft.
 
 ## Read these first
@@ -42,7 +44,7 @@ Working title: "We removed Kimi's refusals. It's just as smart, and it's the bes
 | # | Beat | Chart |
 |---|---|---|
 | 0 | Hook: a pentest agent that stops to ask permission isn't a pentest agent. Removing refusals can fail two ways: the model still won't do the work, or it gets dumber. We tested both. | Hero image (C summary + B, two panels) |
-| 1 | It does the work. Stock Kimi deflects almost every harmful request; the abliterated model answers, and it refused nothing in real pentest runs. | **A** |
+| 1 | It does the work. Stock Kimi deflects harmful requests; the abliterated model answers (numbers from gap 3), and it refused nothing in real pentest runs. | **A** |
 | 2 | It didn't get dumber. Same scores as stock on every benchmark. | **B** |
 | 3 | It's the strongest zero-refusal pentester we've tested: ahead of DeepSeek Abliterated on the same challenges. | **C** |
 | 4 | How close it gets to frontier models, on the same harness and the same challenges. | **D** |
@@ -138,7 +140,7 @@ Nick starts and stops benchmark runs himself. Hand him the exact commands and do
 2. **Stock Kimi on the intelligence suite** (closes B).
    - Run `cd ~/git_projects/morph/tmp/k31-intel-eval && ./run_arm.sh base aime25:10,gpqa:4,ifbench:2`. Those repeat counts match the abliterated run.
    - The `base` arm points at `morph-kimik3`, which serves the same K3.1 Pro weights the abliterated model was built from, so the comparison is paired.
-3. **Refusals on one prompt set and one grader for both models** (closes A).
+3. **Refusals on one prompt set and one grader for both models** (closes A; required, since we publish no outside refusal numbers).
    - The lightest path reuses the existing Heretic eval that produced DeepSeek's numbers: `operations/rdu-keys-1017-20261018/bench/heretic_eval.py`, run against stock and abliterated Kimi.
    - It takes `--candidate url,model,key_file`, `--baseline url,model,key_file`, and optionally `--refusal-baseline`, `--skip-kl`, `--thinking`, plus `--out`. Check `--help` before running.
    - DeepSeek's existing results: 10/100 flagged with about 2 real refusals (stock 100/100); thinking on, 7/100 flagged with about 2 real (stock 99/100); KL 0.169.
@@ -163,8 +165,8 @@ Optional, only if Nick asks: stock Kimi on XBOW (shows abliteration doesn't hurt
   - Never call our models "uncensored". The word is fine only as a generic SEO category, in competitors' product names, and in existing URL slugs (`/products/uncensored`, `/blog/uncensored-deepseek`).
 - **No infrastructure details:** no GPU models, rack, cluster or region names. "Our own clusters" is as specific as it gets.
 - **No em dashes.**
-- **Every number** must come from this doc or its sources, and third-party numbers are credited to whoever produced them (Moonshot, the paper, OpenRouter).
-- **Prices:** the site code has Kimi Abliterated pricing (`landing/src/lib/pricing.ts`, `CHAT_KIMIABLITERATED_*`), but the model entry is still `public: false`. Don't quote a price unless Nick confirms it.
+- **Every number** must come from this doc or its sources, and third-party numbers are credited to whoever produced them (Moonshot, the paper, OpenRouter). No third-party numbers about the abliterated model itself.
+- **Prices:** Kimi Abliterated launched publicly on 2026-11-23 (landing PR #882): $2.75 input, $0.319 cached input, $15.40 output per 1M tokens (`CHAT_KIMIABLITERATED_*` in `landing/src/lib/pricing.ts`). Ultra does not cover it. Re-read pricing.ts before quoting.
 - **Voice:** if the byline is Nick, read `~/.claude/skills/my-writing-style/SKILL.md` first. If it's Tejas, match the DeepSeek post.
 
 ## Where things go
@@ -177,6 +179,5 @@ Optional, only if Nick asks: stock Kimi on XBOW (shows abliteration doesn't hurt
 ## Questions for Nick before publishing
 
 1. Who is the byline, Nick or Tejas?
-2. Is Kimi Abliterated publicly available yet? As of 2026-11-20 the public model id still waited on Nick's SKU, price and privileged-access step, and the site lists it as `public: false`.
-3. Should the post mention the MindFort partnership, as the DeepSeek post did?
-4. Approval to run gaps 1 to 3 (he launches them).
+2. Should the post mention the MindFort partnership, as the DeepSeek post did?
+3. Approval to run gaps 1 to 3 (he launches them).
