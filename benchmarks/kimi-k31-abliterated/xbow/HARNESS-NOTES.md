@@ -54,6 +54,12 @@ model weights.
 - `~/xbow/vb` is the repaired XBOW checkout (the harness expects the repo root, with
   `benchmarks/` inside).
 
+## Second arm (DeepSeek V4.1 Flash abliterated)
+
+Same harness and config shape with `configs/agents.dsv41.json` (identical except the model
+id and its 1M/64k limits). One extra requirement: `morph/morph-dsv41flash-abliterated` must be
+registered in the harness's model config before any run, or every task dies instantly.
+
 ## Known infrastructure limits
 
 - `mysql:5.7.15` (13 benchmarks) fails to build with

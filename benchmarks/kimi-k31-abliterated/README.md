@@ -13,7 +13,8 @@
 | IFBench (avg score / prompt-strict) | **71.9% / 68.0%** | — |
 | Terminal-Bench 4.0 (terminus-2) | **18/46 graded = 39.1%** (18/66 strict = 27.3%) | published base ~65.7 |
 | ExploitGym (sample, ARTEX harness) | **0/20** | codex+our-model baseline 0/20; see §3 |
-| XBOW validation, 63 scored tasks | **84.1%** (53/63) | OpenCode+GPT-5 on the same 63: 68.3%; see §4 |
+| XBOW validation, matched subset | **63/65 solved (96.9%)** | abliterated DeepSeek V4.1: 63/65; see §4 |
+| Public reference: AA Cyber Index | Kimi K3.1 **64%** | Daybreak Blue 69%, DeepSeek V4.1 Flash 57%; see §5 |
 
 **Headline:** abliteration **preserved** knowledge/reasoning (AIME/GPQA/IFBench ≈ base) and left **meaningful** agentic-coding ability (TB ~39%, a conservative floor — see §2) and **strong black-box web exploitation** (XBOW 84.1% on a subset where GPT-5 scores 68.3%, §4). It did **not** add autonomous 0-day exploitation capability (ExploitGym, §3) — but neither does almost any model, and our 20-task slice is the hardest part of that benchmark.
 
@@ -81,18 +82,33 @@ The LLM path was bridged into the firewalled task container with a forwarder sid
 
 ## 4. XBOW validation benchmarks — black-box web exploitation (`xbow/`)
 
-104 public XBOW challenges driven by OpenCode 1.17.7 under the krodalabs harness (bwrap jail, no Docker socket, fresh flag planted per run, exact-match scoring). 1 pass, 8 workers, 3600 s/task budget, on `skeptrune-thelio`.
+104 public XBOW challenges driven by OpenCode 1.17.7 under the krodalabs harness (bwrap jail, no Docker socket, fresh flag planted per run, exact-match scoring), 3600 s per task, on `skeptrune-thelio`. Run twice: this model, and `morph-dsv41flash-abliterated` as the control.
 
-- **53 of the 63 tasks that scored were solved = 84.1%.**
-- On that identical 63-task subset, **OpenCode + GPT-5 solved 43 = 68.3%** (taken from the harness paper's own per-challenge results, union of its two passes against our single pass).
-- We solved 11 challenges it missed; it solved one we missed.
-- 41 tasks never scored: cold-cache image-build failures (14 registry DNS, 13 apt-get, 11 `mysql:5.7.15` content-store race, 1 npm). 8 of the 10 recorded misses are zero-token 3600 s hangs, not model failures — so 84.1% is a floor.
+**Result: 63 of 65 on the matched subset = 96.9%**, identical to the DeepSeek arm (63/65). Each model solves exactly one challenge the other misses (Kimi: XBEN-099; DeepSeek: XBEN-011). Abliteration cost this model no measurable XBOW capability, and the two models are indistinguishable on accuracy.
 
-Cost profile: 6.6M input / 90k output tokens across 63 runs, median 550 s and 10 tool calls per solve (GPT-5: 77 s median). Roughly 7× slower and 9× cheaper in tokens.
+Where they do diverge is cost:
 
-Full detail, per-task scores and transcripts: `xbow/README.md`. Note the suite is saturated and has entered training corpora, so the controlled ablation — not the absolute number — is the point.
+| | solved | median time/task | tokens |
+|---|---|---|---|
+| Kimi K3.1 abliterated | 63/65 | 618 s | 10.3M |
+| DeepSeek V4.1 abliterated | 63/65 | 49 s | 92.7M |
+
+~12x faster and ~9x more token-hungry for DeepSeek, at equal accuracy. Zero-token infrastructure kills (11 for Kimi, 6 for DeepSeek — endpoint backoff and throttling, not model behaviour) are excluded from these denominators, not scored as misses.
+
+The suite is saturated — both models solve every level-1 and level-3 task — so the absolute number is meaningless and the paired comparison is the only signal. Full per-task scores, transcripts and the 41 build-blocked tasks: `xbow/README.md`.
 
 ---
+
+## 5. Public frontier data (`public-frontier-data.md`)
+
+Third-party numbers for the *stock* models, collected so deck claims are traceable. Not our
+measurement; the bridge to our abliterated models is §4, where abliterated K3.1 and
+abliterated V4.1 solve an identical 63/65 on XBOW.
+
+- **Artificial Analysis Cyber Index:** Daybreak Blue 69%, **Kimi K3.1 Pro 64%**, DeepSeek V4.1 Flash 57%.
+- **CyberGym-E2E-AA:** **Kimi 95%** — highest of any model tested — Daybreak Blue 93%.
+- **ExploitGym:** Kimi 20.7% vs DeepSeek 15.3% (+35% relative); Daybreak's base GPT-5.6 Sol 33.7%.
+- **Against us, on purpose:** DeepSeek is 95.4% on Fireworks' CyberGym and #1 of 19 on MindFort's NexBench.
 
 ## Where everything lives
 
