@@ -38,8 +38,8 @@ Record the answer: append/update `FLEET_BACKEND=local` or `FLEET_BACKEND=boat` i
 | Check | Command | If missing |
 |---|---|---|
 | opencode CLI (lead) | `command -v opencode` | `npm i -g opencode-ai` if npm exists, else tell user. Lead-friendly, not blocking. |
-| Local secrets | `.env` with `OPENCODE_SERVER_PASSWORD` and `MORPH_API_KEY` set and non-empty | Create `.env` with mode 600 (start from `.env.example`). Generate the server password (`openssl rand -hex 24`). Ask the user for MORPH_API_KEY only if absent — never echo, never commit. One key covers BOTH providers (workers use the ablated endpoint, lanes the standard one). |
-| Key validity (cheap, no boxes) | curl one `chat/completions` probe with `max_tokens: 8` against BOTH `https://api.morphllm.com/v1` (model `morph-kimik3-fast`, lane default) and `https://test-rdu-bb4-abliterated.morphllm.com/v1` (model `morph-dsv41flash-abliterated`, worker default), expecting HTTP 200 on each | The key is wrong for that endpoint. Tell the user which endpoint 401'd; ask for the right key. Do not print the key. |
+| Local secrets | `.env` with `OPENCODE_SERVER_PASSWORD` and `MORPH_API_KEY` set and non-empty | Create `.env` with mode 600 (start from `.env.example`). Generate the server password (`openssl rand -hex 24`). Ask the user for MORPH_API_KEY only if absent — never echo, never commit. One key covers BOTH providers (workers use the abliterated models, lanes the standard ones). |
+| Key validity (cheap, no boxes) | curl two `chat/completions` probes with `max_tokens: 8` against `https://api.morphllm.com/v1`: model `morph-kimik3-fast` (lane default) and model `morph-dsv41flash-abliterated` (worker default), expecting HTTP 200 on each | 401: the key is wrong; ask for the right key. 403 on the abliterated model: the org isn't approved yet; send the user to https://www.morphllm.com/privileged-access. Do not print the key. |
 
 ## 4. Live preflight (mandatory; this is the "it actually works" test)
 

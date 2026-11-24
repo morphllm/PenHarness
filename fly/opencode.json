@@ -24,12 +24,19 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "Morph Abliterated",
       "options": {
-        "baseURL": "https://test-rdu-bb4-abliterated.morphllm.com/v1",
+        "baseURL": "https://api.morphllm.com/v1",
         "apiKey": "{env:MORPH_API_KEY}"
       },
       "models": {
         "morph-dsv41flash-abliterated": {
           "name": "DeepSeek V4.1 Flash Abliterated",
+          "reasoning": true,
+          "tool_call": true,
+          "interleaved": { "field": "reasoning_content" },
+          "limit": { "context": 1048576, "output": 32768 }
+        },
+        "morph-kimik3-abliterated": {
+          "name": "Kimi K3.1 Pro Abliterated",
           "reasoning": true,
           "tool_call": true,
           "interleaved": { "field": "reasoning_content" },
