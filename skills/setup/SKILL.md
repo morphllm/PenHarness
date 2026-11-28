@@ -39,7 +39,7 @@ Record the answer: append/update `FLEET_BACKEND=local` or `FLEET_BACKEND=boat` i
 |---|---|---|
 | opencode CLI (lead) | `command -v opencode` | `npm i -g opencode-ai` if npm exists, else tell user. Lead-friendly, not blocking. |
 | Local secrets | `.env` with `OPENCODE_SERVER_PASSWORD` and `MORPH_API_KEY` set and non-empty | Create `.env` with mode 600 (start from `.env.example`). Generate the server password (`openssl rand -hex 24`). Ask the user for MORPH_API_KEY only if absent — never echo, never commit. One key covers BOTH providers (workers use the abliterated models, lanes the standard ones). |
-| Key validity (cheap, no boxes) | curl two `chat/completions` probes with `max_tokens: 8` against `https://api.morphllm.com/v1`: model `morph-kimik3-fast` (lane default) and model `morph-dsv41flash-abliterated` (worker default), expecting HTTP 200 on each | 401: the key is wrong; ask for the right key. 403 on the abliterated model: the org isn't approved yet; send the user to https://www.morphllm.com/privileged-access. Do not print the key. |
+| Key validity (cheap, no boxes) | curl two `chat/completions` probes with `max_tokens: 8` against `https://api.morphllm.com/v1`: model `morph-kimik3` (coordinator/lane default) and model `morph-dsv41flash-abliterated` (worker default), expecting HTTP 200 on each | 401: the key is wrong; ask for the right key. 403 on an abliterated model: the org isn't approved yet; send the user to https://www.morphllm.com/privileged-access. Do not print the key. |
 
 ## 4. Live preflight (mandatory; this is the "it actually works" test)
 
@@ -49,7 +49,7 @@ Record the answer: append/update `FLEET_BACKEND=local` or `FLEET_BACKEND=boat` i
 mkdir -p hunts/preflight && cd hunts/preflight
 python3 ../../fleet.py up 1 --ttl 1200 --prefix preflight
 python3 ../../fleet.py warm                                   # validates worker default route
-python3 ../../fleet.py warm --model morph/morph-kimik3-fast   # validates lane/coordinator route
+python3 ../../fleet.py warm --model morph/morph-kimik3   # validates worker route; coordinator/lanes use K3 automatically
 python3 ../../fleet.py status        # health:ok, sessions non-busy
 python3 ../../fleet.py down --force  # destroy proof
 ```

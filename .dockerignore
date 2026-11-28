@@ -1,0 +1,7 @@
+.git
+.tools
+.venv
+**/__pycache__
+**/*.pyc
+hunts/*
+!hunts/TEMPLATE

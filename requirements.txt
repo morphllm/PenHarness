@@ -1,0 +1,4 @@
+# Only the paid control plane needs these; fleet.py remains stdlib-only.
+PyJWT[crypto]>=2.10,<3
+idna>=3.10,<4
+dnspython>=2.6,<3

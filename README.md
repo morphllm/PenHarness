@@ -141,3 +141,7 @@ hunts/<target>/           gitignored working state: findings, evidence, report
 
 Use this only against targets you are authorized to assess. The harness tags
 its traffic, rate-limits, and records everything for a reason; keep it that way.
+
+For the authenticated paid-engagement control plane used by the Morph dashboard, see
+[`engagement/README.md`](engagement/README.md). It is separate from operator-driven hunts and ships
+with automatic launch disabled until its worker-egress preflight passes.

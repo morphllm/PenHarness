@@ -1,4 +1,5 @@
 .env
+.venv/
 __pycache__/
 *.pyc
 fleet-state.json
@@ -7,3 +8,6 @@ fleet-state.json
 hunts/*
 !hunts/TEMPLATE/
 !hunts/TEMPLATE/**
+
+# Runtime paid-engagement state and evidence.
+.engagements/

@@ -27,8 +27,8 @@ directory is loaded first):
   OPENCODE_SERVER_USERNAME   optional, default "opencode"
   MORPH_API_KEY              provider key injected into boxes on `up` (optional;
                              without it boxes boot but prompts fail at the provider)
-  WORKER_MODEL               muscle model id (default: morph/morph-dsv41flash-1017)
-  LANE_MODEL                 lane-head model id (default: morph/morph-kimik3-fast)
+  WORKER_MODEL               muscle model id (default: morph-abliterated/morph-dsv41flash-abliterated)
+  LANE_MODEL                 lane-head/coordinator model id (default: morph/morph-kimik3)
   BOAT_TYPE                  sandbox size (default: small)
   BOAT_TTL                   sandbox lifetime seconds (default: 14400)
   FLY_API_TOKEN / FLY_APP / FLY_REGION   fly backend only
@@ -42,6 +42,7 @@ import argparse
 import base64
 import concurrent.futures as cf
 import io
+import http.client
 import json
 import os
 import random
@@ -60,13 +61,17 @@ STATE_FILE = "fleet-state.json"
 DEFAULT_REGION = "iad"
 DEFAULT_BACKEND = "local"
 DEFAULT_WORKER_MODEL = "morph-abliterated/morph-dsv41flash-abliterated"
-DEFAULT_LANE_MODEL = "morph/morph-kimik3-fast"
+DEFAULT_LANE_MODEL = "morph/morph-kimik3"
 OPENCODE_PORT = 4096
 HARNESS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class FleetError(RuntimeError):
     """User-actionable error."""
+
+    def __init__(self, message, status=None):
+        super().__init__(message)
+        self.status = status
 
 
 def die(msg, code=1):
@@ -105,7 +110,14 @@ def save_state(state):
     tmp = STATE_FILE + ".tmp"
     with open(tmp, "w") as f:
         json.dump(state, f, indent=1)
+        f.flush()
+        os.fsync(f.fileno())
     os.replace(tmp, STATE_FILE)
+    directory = os.open(".", os.O_RDONLY)
+    try:
+        os.fsync(directory)
+    finally:
+        os.close(directory)
 
 
 def rand_id(n=6):
@@ -115,24 +127,32 @@ def rand_id(n=6):
 # --- HTTP helpers -----------------------------------------------------------
 
 
-def _request(url, method="GET", body=None, headers=None, timeout=120):
+def _request(url, method="GET", body=None, headers=None, timeout=120, direct=False):
     data = json.dumps(body).encode() if body is not None else None
     req = urllib.request.Request(url, data=data, method=method)
     req.add_header("Content-Type", "application/json")
     for k, v in (headers or {}).items():
         req.add_header(k, v)
+    # direct=True ignores HTTP(S)_PROXY. urllib.request has no module-level open(), so the
+    # proxied path must use urlopen.
+    open_url = (urllib.request.build_opener(urllib.request.ProxyHandler({})).open if direct
+                else urllib.request.urlopen)
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        with open_url(req, timeout=timeout) as resp:
             raw = resp.read()
             return resp.status, (json.loads(raw) if raw else None)
     except urllib.error.HTTPError as e:
         detail = e.read().decode(errors="replace")[:300]
-        raise FleetError(f"{method} {url} -> {e.code}: {detail}")
+        raise FleetError(f"{method} {url} -> {e.code}: {detail}", status=e.code)
     except urllib.error.URLError as e:
         raise FleetError(
             f"{method} {url} failed: {e.reason}. If this is a machine address, "
             "check your Fly wireguard: fly wireguard status / fly wireguard up"
         )
+    except (OSError, http.client.HTTPException) as e:
+        # A read timeout or a dropped connection is not wrapped in URLError. Report it as a
+        # FleetError so retry loops (health checks, dispatch) treat it like any other failure.
+        raise FleetError(f"{method} {url} failed: {e!r}")
 
 
 def mapi(method, path, body=None, timeout=120):
@@ -143,6 +163,7 @@ def mapi(method, path, body=None, timeout=120):
         body=body,
         headers={"Authorization": f"Bearer {token}"},
         timeout=timeout,
+        direct=True,
     )
 
 
@@ -160,10 +181,9 @@ def box_req(machine, method, path, body=None, timeout=3600):
         url = machine["url"] + path
         headers["Cookie"] = f"_port_auth={machine['token']}"
         return _request(url, method=method, body=body, headers=headers, timeout=timeout)
-    # fly backend: public anycast URL pinned to the machine via fly-replay
-    # (experimental: proven flaky under parallel load), else private 6PN
-    # address (requires wireguard on the lead).
-    if machine.get("instance"):
+    # Operator hunts may use the public anycast replay path. Paid workers are
+    # deliberately privateOnly and must use their private Fly6PN address.
+    if machine.get("instance") and not machine.get("privateOnly"):
         app = env("FLY_APP", required=True)
         url = f"https://{app}.fly.dev{path}"
         headers["fly-replay"] = f"instance={machine['instance']}"
@@ -172,8 +192,12 @@ def box_req(machine, method, path, body=None, timeout=3600):
         if not ip:
             raise FleetError(f"machine {machine.get('name') or machine.get('id')} has no address")
         port = machine.get("port") or int(env("OPENCODE_PORT", OPENCODE_PORT))
-        url = f"http://{ip}:{port}{path}"
-    return _request(url, method=method, body=body, headers=headers, timeout=timeout)
+        authority = f"[{ip}]" if ":" in ip else ip
+        url = f"http://{authority}:{port}{path}"
+    return _request(
+        url, method=method, body=body, headers=headers, timeout=timeout,
+        direct=bool(machine.get("privateOnly")),
+    )
 
 
 # --- boat.dev backend -------------------------------------------------------
@@ -310,7 +334,11 @@ def destroy_machine(mc):
     if mc.get("backend") == "boat":
         return boat_destroy(mc)
     app = env("FLY_APP", required=True)
-    mapi("DELETE", f"/apps/{app}/machines/{mc['id']}?force=true", timeout=60)
+    try:
+        mapi("DELETE", f"/apps/{app}/machines/{mc['id']}?force=true", timeout=60)
+    except FleetError as exc:
+        if exc.status != 404:
+            raise
     return mc["name"]
 
 
@@ -343,9 +371,18 @@ def find_machine_image(app):
     return None
 
 
+def image_source_app(default_app):
+    """Return the controller's image-source app, distinct from paid workers."""
+    return env("HACK_ME_CONTROL_FLY_APP", default_app)
+
+
 def resolve_image(app, args_image):
     if args_image:
         return args_image
+    # A controller holding a token scoped to the worker app cannot list the controller app's
+    # machines; it names the worker image explicitly instead.
+    if env("HACK_ME_WORKER_IMAGE"):
+        return env("HACK_ME_WORKER_IMAGE")
     image = find_machine_image(app)
     if image:
         return image
@@ -354,6 +391,19 @@ def resolve_image(app, args_image):
         "Deploy the image first (fly deploy --build-only) or pass --image "
         "registry.fly.io/<app>:<tag>"
     )
+
+
+def scoped_proxy_environment(machine_env):
+    """Copy the paid engagement's scoped proxy contract to worker Machines.
+
+    Blank NO_PROXY is intentional. Only the unauthenticated proxy URL and its
+    matching lowercase variables are copied; never copy unrelated env values.
+    """
+    for name in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY",
+                 "http_proxy", "https_proxy", "all_proxy", "no_proxy"):
+        if name in os.environ:
+            machine_env[name] = os.environ[name]
+    return machine_env
 
 
 def cmd_up_boat(args):
@@ -428,6 +478,101 @@ def cmd_up_boat(args):
     print(f"up: {len(healthy)} box(es) ready")
 
 
+def worker_inference_environment():
+    """Return the worker's model transport, never the upstream provider key.
+
+    Paid engagement workers receive only the control-plane broker URL and the
+    per-engagement token the broker already expects. Operator hunts retain the
+    existing MORPH_API_KEY behavior.
+    """
+    broker_url = env("HACK_ME_MODEL_BROKER_URL")
+    if broker_url:
+        return {
+            "HACK_ME_MODEL_BROKER_URL": broker_url,
+            "HACK_ME_BROKER_TOKEN": env("HACK_ME_BROKER_TOKEN", required=True),
+        }
+    return {"MORPH_API_KEY": env("MORPH_API_KEY")} if env("MORPH_API_KEY") else {}
+
+
+PAID_WORKER_CONFIG_FIELDS = (
+    "HACK_ME_PAID_FIREWALL",
+    "HACK_ME_TARGET_HOSTNAME",
+    "HACK_ME_CONTROL_PRIVATE_IP",
+    "HACK_ME_EGRESS_ENFORCED",
+    "HACK_ME_EGRESS_PROXY_URL",
+    "HACK_ME_EGRESS_RATE",
+    "HACK_ME_WORKER_SSH_FROM",
+)
+
+
+def paid_worker_environment(machine_env):
+    """Copy only the deployment's explicitly required paid-worker controls."""
+    for name in PAID_WORKER_CONFIG_FIELDS:
+        if name in os.environ:
+            machine_env[name] = os.environ[name]
+    return machine_env
+
+
+def fly_worker_services():
+    """Paid workers have no anycast service; only private 6PN can reach them."""
+    if env("HACK_ME_PAID_ENGAGEMENT") == "1":
+        return []
+    return [{
+        "internal_port": OPENCODE_PORT,
+        "protocol": "tcp",
+        "autostart": True,
+        # Operator machines idle-driven over 6PN must not auto-stop mid-hunt.
+        "autostop": False,
+        "ports": [{"port": 443, "handlers": ["tls", "http"]}],
+    }]
+
+
+# Machines API answers to a create that guarantee nothing was allocated: a
+# malformed or unprocessable body, bad or insufficient auth, an unknown app.
+# Everything else (no status: connection error or timeout; 408, 409, 429, 5xx)
+# may have allocated a machine, so its cleanup intent is kept until Fly's
+# listing settles it.
+CREATE_REJECTED_STATUSES = frozenset({400, 401, 403, 404, 422})
+# An id-less intent (the create got no definitive answer) is dropped as "never allocated" only
+# after it has been missing from at least INTENT_DROP_MISSES consecutive listings AND its create
+# started longer ago than the settle window: the 180 s create timeout plus Fly listing lag.
+# Until then cleanup stays pending, and a machine Fly did create late is still found by its
+# name and engagement metadata and destroyed. Misses and timestamps live in the journal, so a
+# restarted controller continues the count instead of starting over.
+INTENT_DROP_MISSES = 3
+INTENT_SETTLE_FLOOR_SECONDS = 240
+
+
+def intent_settle_seconds():
+    return max(INTENT_SETTLE_FLOOR_SECONDS, int(env("HACK_ME_INTENT_SETTLE_SECONDS", "600")))
+
+
+def require_isolated_worker_app(app):
+    """Paid workers must run in an app of their own that holds no Fly secrets.
+
+    Fly injects every app secret into every Machine of the app, including Machines created
+    through the Machines API with an explicit env. A worker in the controller's app, or in an
+    app someone ran `fly secrets set` on, would hand the agent those values (the controller's
+    app holds FLY_API_TOKEN and MORPH_API_KEY). Fails closed: if the secret list cannot be read,
+    nothing is created.
+    """
+    controller_apps = {name for name in (env("HACK_ME_CONTROL_FLY_APP"), env("FLY_APP_NAME")) if name}
+    if app in controller_apps:
+        raise FleetError(f"refusing to launch paid workers in the controller's own app {app!r}")
+    try:
+        _, listing = mapi("GET", f"/apps/{app}/secrets", timeout=30)
+        secrets = listing["secrets"]
+        if not isinstance(secrets, list):
+            raise TypeError("secrets is not a list")
+    except Exception as exc:  # noqa: BLE001 - any failure to prove "no secrets" refuses the launch
+        raise FleetError(f"refusing to launch paid workers: cannot list {app!r} secrets ({type(exc).__name__})")
+    if secrets:
+        names = ", ".join(sorted(str(item.get("name", "?")) for item in secrets if isinstance(item, dict)))
+        raise FleetError(
+            f"refusing to launch paid workers: app {app!r} has Fly secrets ({names or len(secrets)}), "
+            "which Fly injects into every worker; unset them or use a dedicated worker app")
+
+
 def cmd_up(args):
     backend = args.backend or env("FLEET_BACKEND", DEFAULT_BACKEND)
     if backend == "local":
@@ -446,30 +591,44 @@ def cmd_up(args):
         args.ttl = args.ttl or int(env("BOAT_TTL", "14400"))
         return cmd_up_boat(args)
     app = env("FLY_APP", required=True)
-    image = resolve_image(app, args.image)
+    paid = env("HACK_ME_PAID_ENGAGEMENT") == "1"
+    if paid:
+        # Before any image lookup or create: nothing is allocated for a refused launch.
+        require_isolated_worker_app(app)
+    image = resolve_image(image_source_app(app), args.image)
     region = args.region or env("FLY_REGION", DEFAULT_REGION)
     machine_env = {
         "OPENCODE_SERVER_PASSWORD": env("OPENCODE_SERVER_PASSWORD", required=True),
         "PORT": str(OPENCODE_PORT),
     }
-    morph_key = env("MORPH_API_KEY")
-    if not morph_key:
-        print("  warning: $MORPH_API_KEY not set — machines boot but prompts will fail "
-              "with provider errors", file=sys.stderr)
-    else:
-        machine_env["MORPH_API_KEY"] = morph_key
-    if env("BROWSER_USE_API_KEY"):
+    machine_env.update(worker_inference_environment())
+    if env("BROWSER_USE_API_KEY") and not paid:
+        # Operator hunts only: a paid worker never receives a third-party credential.
         machine_env["BROWSER_USE_API_KEY"] = env("BROWSER_USE_API_KEY")
-    # lane machines run the idle-loop plugin; worker one-shots never loop
-    machine_env["HUNT_LOOP"] = "1" if args.role == "lane" else "0"
+    scoped_proxy_environment(machine_env)
+    paid_worker_environment(machine_env)
+    # Only the coordinator loops. Lane-heads are reactive and workers are one-shot.
+    machine_env["HUNT_LOOP"] = "1" if args.role == "coordinator" else "0"
+    if paid and args.role in ("coordinator", "lane"):
+        if env("HACK_ME_LOCAL_SUBAGENTS") == "1":
+            machine_env["HACK_ME_LOCAL_SUBAGENTS"] = "1"
+        else:
+            machine_env["HACK_ME_CONTROL_URL"] = env("HACK_ME_CONTROL_URL", required=True)
+        for filename, variable in (("brief.md", "HACK_ME_PAID_BRIEF_B64"),
+                                   ("scope.md", "HACK_ME_PAID_SCOPE_B64")):
+            with open(filename, "rb") as source:
+                machine_env[variable] = base64.b64encode(source.read()).decode()
 
     state = load_state()
     print(f"creating {args.count} machine(s) in {app}/{region} from {image}")
     created = []
+    engagement_id = getattr(args, "engagement_id", None)
+    journal_lock = threading.Lock()
 
     def create(i):
+        name = f"{args.prefix}-{rand_id()}"
         body = {
-            "name": f"{args.prefix}-{rand_id()}",
+            "name": name,
             "region": region,
             "config": {
                 "image": image,
@@ -479,25 +638,39 @@ def cmd_up(args):
                     "memory_mb": args.memory,
                 },
                 "env": machine_env,
-                # Public TLS service so the lead reaches each machine over
-                # https://<app>.fly.dev + fly-replay (no wireguard needed).
-                # Auth is opencode basic auth; unauthenticated gets 401.
-                "services": [{
-                    "internal_port": OPENCODE_PORT,
-                    "protocol": "tcp",
-                    "autostart": True,
-                    # Machines idle-driven over 6PN/wireguard generate no edge
-                    # traffic; without this Fly auto-stops them mid-hunt.
-                    "autostop": False,
-                    "ports": [{"port": 443, "handlers": ["tls", "http"]}],
-                }],
+                "services": fly_worker_services(),
                 "auto_destroy": False,
             },
         }
-        _, m = mapi("POST", f"/apps/{app}/machines", body=body, timeout=180)
+        if engagement_id:
+            # Record intent before the provider can allocate a machine. Track
+            # cleanup separately from the set of healthy, dispatchable workers.
+            body["config"]["metadata"] = {"engagement_id": engagement_id}
+            with journal_lock:
+                state.setdefault("cleanupMachines", {})[name] = {
+                    "app": app, "engagement": engagement_id, "name": name,
+                    "createdAt": time.time(),
+                }
+                save_state(state)
+        try:
+            _, m = mapi("POST", f"/apps/{app}/machines", body=body, timeout=180)
+        except FleetError as exc:
+            if engagement_id and exc.status in CREATE_REJECTED_STATUSES:
+                # Fly refused the request outright, so no machine exists to find
+                # later. Leaving the id-less intent would keep cleanup (and the
+                # engagement's capacity slot) unconfirmed forever.
+                with journal_lock:
+                    state["cleanupMachines"].pop(name, None)
+                    save_state(state)
+            raise
+        if engagement_id:
+            with journal_lock:
+                state["cleanupMachines"][name]["id"] = m["id"]
+                save_state(state)
         return {"id": m["id"], "name": m["name"], "role": args.role,
                 "ip": m.get("private_ip"),
                 "instance": m.get("instance_id"),
+                "privateOnly": env("HACK_ME_PAID_ENGAGEMENT") == "1",
                 "created": time.strftime("%Y-%m-%dT%H:%M:%SZ",
                                          time.gmtime())}
 
@@ -566,6 +739,16 @@ def cmd_up(args):
                 ready.append(mc)
                 print(f"  healthy {mc['name']}")
 
+        # An engagement never uses a machine that failed to start or answer health, so do not
+        # leave it running (and billing) until teardown. Its journal entry stays: cmd_down
+        # retries the delete and treats a 404 as done.
+        ready_ids = {mc["id"] for mc in ready}
+        unusable = [mc for mc in created if mc["id"] not in ready_ids]
+        if engagement_id and unusable:
+            for mc, res in zip(unusable, parallel(destroy_machine, unusable)):
+                outcome = f"FAILED ({res}); teardown retries it" if isinstance(res, BaseException) else "destroyed"
+                print(f"  unhealthy {mc['name']}: {outcome}", file=sys.stderr)
+
     state["machines"].extend(ready)
     save_state(state)
     print(f"up: {len(ready)} machine(s) ready")
@@ -602,6 +785,35 @@ def _health(machine):
         return status == 200
     except FleetError:
         return False
+
+
+def reject_pending_permissions(machine, session_id=None):
+    """Reject every opencode permission prompt waiting on this machine (optionally one session).
+
+    Nobody answers prompts on a worker, so a prompt parks the session until the run deadline.
+    fly/opencode.json decides the prompts opencode is known to raise. This catches any new one a
+    future opencode adds, and it rejects rather than approves, so it never grants anything.
+    Returns the number rejected; listing errors are left to the caller's status check."""
+    try:
+        _, pending = box_req(machine, "GET", "/permission", timeout=15)
+    except FleetError:
+        return 0
+    rejected = 0
+    for request in pending if isinstance(pending, list) else []:
+        if not isinstance(request, dict) or not request.get("id"):
+            continue
+        if session_id and request.get("sessionID") != session_id:
+            continue
+        try:
+            box_req(machine, "POST", f"/permission/{request['id']}/reply",
+                    body={"reply": "reject", "message": "No operator is present. Use the project "
+                          "directory or continue without this action."}, timeout=15)
+            rejected += 1
+            print(f"  {machine.get('name')}: rejected unattended {request.get('permission')} prompt",
+                  file=sys.stderr)
+        except FleetError:
+            pass
+    return rejected
 
 
 def _lane_busy(machine, session_id):
@@ -782,7 +994,7 @@ testing, grep findings.d/index.jsonl (if present) so you don't repeat a known de
 YOUR OUTPUT IS FILES, NEVER just the chat reply. When done:
 1. CREATE findings.d/{wid}-{tid}.md in exactly this format:
 ## <title>
-status: confirmed | hypothesis | dead    class: authz|ssrf|info-leak|session|injection|config|structural|dos|crypto
+status: confirmed | hypothesis | dead    class: authz|ssrf|info-leak|session|injection|config|structural|dos|crypto|cve
 sev: crit|high|med|low|info
 where: <host+path>
 what: <2-4 sentences>
@@ -821,9 +1033,9 @@ def wait_idle(machine, session_id, timeout=900):
 
 def cmd_dispatch(args):
     state = load_state()
-    machines = state.get("machines", [])
+    machines = [m for m in state.get("machines", []) if m.get("role", "worker") == "worker"]
     if not machines:
-        die("no machines in fleet-state.json — run: python3 fleet.py up N")
+        die("no worker machines in fleet-state.json — run: python3 fleet.py up N")
     tasks = [l.rstrip("\n") for l in open(args.file) if l.strip() and not l.startswith("#")]
     if not tasks:
         die(f"no tasks in {args.file}")
@@ -840,7 +1052,7 @@ def cmd_dispatch(args):
         sid = create_session(mc, f"worker-{stream}-{tid}")
         prompt = WORKER_PROMPT.format(wid=mc["name"], tid=tid, brief=brief, task=task)
         send_prompt(mc, sid, prompt, model)
-        return {"task": task, "machine": mc["name"], "session": sid, "stream": stream}
+        return {"task": task, "taskId": tid, "machine": mc["name"], "session": sid, "stream": stream}
 
     dispatched = []
     failures = 0
@@ -866,14 +1078,20 @@ def cmd_warm(args):
     if not machines:
         die("no machines — run: python3 fleet.py up N")
     model = args.model or env("WORKER_MODEL", DEFAULT_WORKER_MODEL)
+    failures = 0
     for mc in machines:
         try:
+            session_model = DEFAULT_LANE_MODEL if mc.get("role") in ("coordinator", "lane") else model
             sid = create_session(mc, "warm")
-            send_prompt(mc, sid, "Reply with exactly: ok", model)
+            send_prompt(mc, sid, "Reply with exactly: ok", session_model)
             ok = wait_idle(mc, sid, timeout=600)
+            if not ok:
+                failures += 1
             print(f"{mc['name']}: {'warm' if ok else 'TIMEOUT'}")
         except FleetError as e:
+            failures += 1
             print(f"{mc['name']}: FAILED {e}", file=sys.stderr)
+    return failures
 
 
 def cmd_lane(args):
@@ -882,14 +1100,13 @@ def cmd_lane(args):
     machines = state.get("machines", [])
     if args.name in state["lanes"]:
         die(f"lane {args.name!r} already exists at machine {state['lanes'][args.name]['machine']}")
+    free = [m for m in machines if m.get("role", "worker") == "worker"]
     if args.machine:
-        pool = [m for m in machines if m["name"] == args.machine] or \
-               die(f"unknown machine {args.machine}")
+        pool = [m for m in free if m["name"] == args.machine] or die(f"unknown free worker {args.machine}")
     else:
-        free = [m for m in machines if m.get("role") != "lane"] or machines
         pool = free
-    if not pool:
-        die("no machines — run: python3 fleet.py up N")
+    if len(free) < 2:
+        die("keep at least one worker available for dispatch after creating this lane")
     mc = pool[0]
     mc["role"] = "lane"
     model = args.model or env("LANE_MODEL", DEFAULT_LANE_MODEL)
@@ -976,6 +1193,8 @@ def cmd_harvest(args):
         os.makedirs(mdir, exist_ok=True)
         new = []
         idx = _box_get_path(mc, "findings.d/index.jsonl")
+        if idx is None and env("HACK_ME_PAID_ENGAGEMENT") == "1":
+            raise FleetError(f"paid harvest could not read findings.d/index.jsonl from {mc['name']}")
         if idx and idx.get("content"):
             with open(os.path.join(mdir, "index.jsonl"), "w") as f:
                 f.write(idx["content"])
@@ -997,6 +1216,41 @@ def cmd_harvest(args):
                         fname = os.path.basename(detail)
                         with open(os.path.join(mdir, fname), "w") as f:
                             f.write(doc["content"])
+        if env("HACK_ME_PAID_ENGAGEMENT") == "1":
+            # detail is prose, not a file path. Enumerate the actual serialization documents.
+            _, nodes = box_req(mc, "GET", "/file?" + urllib.parse.urlencode({"path": "findings.d"}), timeout=30)
+            for node in nodes or []:
+                name = node.get("name") or ""
+                if not name.endswith(".md") or os.path.basename(name) != name:
+                    continue
+                doc = _box_get_path(mc, f"findings.d/{name}")
+                if doc is None:
+                    raise FleetError(f"paid harvest could not read findings.d/{name} from {mc['name']}")
+                with open(os.path.join(mdir, name), "w") as output:
+                    output.write(doc.get("content", ""))
+        # Paid workers' egress record (DNS queries, new and denied connections, proxy log),
+        # kept by root under /var/log/hack-me and linked into the project as egress/.
+        for log_name in ("connections.log", "dns.log", "proxy.log"):
+            doc = _box_get_path(mc, f"egress/{log_name}")
+            if doc and doc.get("content"):
+                with open(os.path.join(mdir, f"egress-{log_name}"), "w") as f:
+                    f.write(doc["content"])
+        if env("HACK_ME_PAID_ENGAGEMENT") == "1":
+            # Preserve OpenCode's coordinator/lane/worker sessions before their ephemeral machines
+            # are destroyed. These are operator artifacts, never part of Landing's public report.
+            try:
+                _, sessions = box_req(mc, "GET", "/session", timeout=30)
+                session_dir = os.path.join(out_root, "sessions")
+                os.makedirs(session_dir, exist_ok=True)
+                for session in sessions or []:
+                    session_id = session.get("id")
+                    if not session_id:
+                        continue
+                    _, messages = box_req(mc, "GET", f"/session/{session_id}/message", timeout=60)
+                    with open(os.path.join(session_dir, f"{mc['name']}-{session_id}.json"), "w") as output:
+                        json.dump({"machine": mc["name"], "session": session, "messages": messages}, output)
+            except (FleetError, TypeError) as exc:
+                raise FleetError(f"paid session capture failed on {mc['name']}: {exc}") from exc
         # lane proposals
         try:
             _, nodes = box_req(mc, "GET", "/file?" + urllib.parse.urlencode({"path": "lanes"}),
@@ -1007,16 +1261,21 @@ def cmd_harvest(args):
                     doc = _box_get_path(mc, f"lanes/{name}")
                     if doc and doc.get("content"):
                         os.makedirs(os.path.join(out_root, "lanes"), exist_ok=True)
-                        with open(os.path.join(out_root, "lanes", f"{mc['name']}-{name}"), "w") as f:
+                        # A lane may already be named with its machine prefix from a prior mirrored
+                        # harvest. Do not prepend that prefix again on every successive harvest.
+                        harvested_name = name if name.startswith(f"{mc['name']}-") else f"{mc['name']}-{name}"
+                        with open(os.path.join(out_root, "lanes", harvested_name), "w") as f:
                             f.write(doc["content"])
         except FleetError:
             pass
         return mc["name"], new
 
     totals = {"confirmed": 0, "hypothesis": 0, "dead": 0, "blocked": 0}
+    failures = 0
     with open(index_path, "a") as out:
         for res in parallel(pull, machines):
             if isinstance(res, Exception):
+                failures += 1
                 print(f"  harvest FAILED: {res}", file=sys.stderr)
                 continue
             name, new = res
@@ -1029,6 +1288,8 @@ def cmd_harvest(args):
             print(f"  {name}: {len(new)} new finding line(s)")
     print("harvest: merged " + " ".join(f"{k}={v}" for k, v in totals.items()) +
           f" -> {index_path}")
+    if failures and env("HACK_ME_PAID_ENGAGEMENT") == "1":
+        raise FleetError(f"paid harvest failed on {failures} machine(s)")
 
 
 # --- Teardown ---------------------------------------------------------------
@@ -1036,8 +1297,51 @@ def cmd_harvest(args):
 
 def cmd_down(args):
     state = load_state()
-    machines = state.get("machines", [])
-    if not machines:
+    machines = list(state.get("machines", []))
+    journal = state.get("cleanupMachines", {})
+    unresolved = []
+    dropped = []
+    known_ids = {machine["id"] for machine in machines}
+    inventory = None
+    for name, intent in journal.items():
+        if intent["app"] != env("FLY_APP", required=True):
+            raise FleetError("cleanup is waiting for the original worker application")
+        machine_id = intent.get("id")
+        if machine_id is None:
+            if inventory is None:
+                _, inventory = mapi("GET", f"/apps/{intent['app']}/machines", timeout=60)
+            matches = [mc for mc in inventory if mc.get("name") == name and
+                       (mc.get("config") or {}).get("metadata", {}).get("engagement_id") == intent["engagement"]]
+            if len(matches) > 1:
+                unresolved.append(name)
+                continue
+            if not matches:
+                # An interrupted create may still become visible. Absence from one listing
+                # cannot confirm the request never allocated; absence from several listings
+                # after the create could no longer be in flight can.
+                now = time.time()
+                intent.setdefault("firstMissAt", now)
+                intent["misses"] = int(intent.get("misses", 0)) + 1
+                started = intent.get("createdAt", intent["firstMissAt"])
+                if intent["misses"] >= INTENT_DROP_MISSES and now - started >= intent_settle_seconds():
+                    print(f"  {name}: create never produced a machine "
+                          f"({intent['misses']} listings over {int(now - started)}s); dropping its intent")
+                    dropped.append(name)
+                else:
+                    unresolved.append(name)
+                save_state(state)
+                continue
+            machine_id = matches[0]["id"]
+            intent["id"] = machine_id
+            save_state(state)
+        if machine_id not in known_ids:
+            machines.append({"name": name, "id": machine_id})
+            known_ids.add(machine_id)
+    for name in dropped:
+        journal.pop(name, None)
+    if dropped:
+        save_state(state)
+    if not machines and not unresolved:
         print("nothing to destroy")
         return
     if not args.force:
@@ -1048,15 +1352,67 @@ def cmd_down(args):
             print(f"  harvest failed ({e}); refusing to destroy without --force", file=sys.stderr)
             sys.exit(1)
 
-    for res in parallel(destroy_machine, machines):
-        if isinstance(res, Exception):
+    failures = []
+    for machine, res in zip(machines, parallel(destroy_machine, machines)):
+        if isinstance(res, BaseException):
+            failures.append(machine)
             print(f"  destroy FAILED: {res}", file=sys.stderr)
         else:
             print(f"  destroyed {res}")
+    if journal:
+        failed_ids = {machine["id"] for machine in failures}
+        state["cleanupMachines"] = {
+            name: item for name, item in journal.items()
+            if name in unresolved or item.get("id") in failed_ids
+        }
+    if failures or unresolved:
+        state["machines"] = failures
+        retry_names = {machine["name"] for machine in failures}
+        state["lanes"] = {
+            name: lane for name, lane in state.get("lanes", {}).items()
+            if lane.get("machine") in retry_names
+        }
+        # Keep resolved successes out of retries; a partial teardown must
+        # converge on a later invocation instead of repeating successful work.
+        save_state(state)
+        raise FleetError(
+            f"cleanup pending for {len(failures)} failed deletions and {len(unresolved)} unconfirmed allocations"
+        )
     state["machines"] = []
     state["lanes"] = {}
     save_state(state)
     print("down: fleet destroyed")
+
+
+def run_paid_remote(args):
+    """Forward only canonical read/plan/dispatch operations to this run's controller."""
+    allowed = {"list", "status", "wait", "dispatch", "lane", "steer", "harvest"}
+    if args.command not in allowed:
+        raise FleetError("paid fleets are pre-provisioned; this operation is controller-only")
+    values = {key: value for key, value in vars(args).items() if key not in {"fn", "command"}}
+    values["command"] = args.command
+    if args.command == "dispatch":
+        values["tasks"] = open(args.file).read()
+    elif args.command == "lane":
+        # Lane session prompts use snippets from the coordinator's canonical brief.
+        values["briefText"] = open(args.brief).read() if args.brief else ""
+    token = env("HACK_ME_BROKER_TOKEN", required=True)
+    _, result = _request(
+        env("HACK_ME_CONTROL_URL", required=True), method="POST", body=values,
+        headers={"Authorization": f"Bearer {token}"}, timeout=180, direct=True,
+    )
+    result = result or {}
+    for name, content in result.get("files", {}).items():
+        if name in ("findings.d/index.jsonl", "findings.md", "dead-ends.md"):
+            destination = name
+        elif name.startswith("lanes/") and "/" not in name.removeprefix("lanes/") and ".." not in name:
+            destination = name
+        else:
+            continue
+        os.makedirs(os.path.dirname(destination) or ".", exist_ok=True)
+        with open(destination, "w") as output:
+            output.write(content)
+    print(result.get("output", ""), end="")
 
 
 def main():
@@ -1080,7 +1436,7 @@ def main():
     p.add_argument("--cpus", type=int, default=2)
     p.add_argument("--memory", type=int, default=2048)
     p.add_argument("--prefix", default="hunt")
-    p.add_argument("--role", default="worker", choices=["worker", "lane"])
+    p.add_argument("--role", default="worker", choices=["worker", "lane", "coordinator"])
     p.add_argument("--skip-health", action="store_true",
                    help="fly: save machines to state after start without waiting for "
                         "/global/health (use with the fly-proxy fallback when the "
@@ -1132,6 +1488,8 @@ def main():
     p.set_defaults(fn=cmd_down)
 
     args = parser.parse_args()
+    if env("HACK_ME_CONTROL_URL"):
+        return run_paid_remote(args)
     try:
         args.fn(args)
     except FleetError as e:

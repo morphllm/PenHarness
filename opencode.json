@@ -4,7 +4,22 @@
   "skills": {
     "paths": ["./skills"]
   },
-  "model": "morph/morph-kimik3-fast",
+  "model": "morph/morph-kimik3",
+  "subagent_depth": 2,
+  "agent": {
+    "kimi-lane": {
+      "description": "Independent investigation lane; delegates concrete probes only to DeepSeek workers.",
+      "mode": "subagent",
+      "model": "morph/morph-kimik3",
+      "permission": { "task": { "deepseek-worker": "allow" } }
+    },
+    "deepseek-worker": {
+      "description": "Bounded leaf worker for one concrete task; cannot delegate further.",
+      "mode": "subagent",
+      "model": "morph-abliterated/morph-dsv41flash-abliterated",
+      "permission": { "task": "deny" }
+    }
+  },
   "provider": {
     "morph": {
       "npm": "@ai-sdk/openai-compatible",
@@ -14,13 +29,7 @@
         "apiKey": "{env:MORPH_API_KEY}"
       },
       "models": {
-        "morph-kimik3-fast": { "name": "Kimi K3 Fast" },
-        "morph-kimik3": { "name": "Kimi K3" },
-        "morph-dsv41flash-1017": { "name": "DeepSeek V4.1 Flash 1017" },
-        "morph-glm53flash": { "name": "GLM-5.3 Flash" },
-        "morph-glm53-744b": { "name": "GLM-5.3 744B" },
-        "morph-v3-fast": { "name": "Morph V3 Fast" },
-        "auto": { "name": "Auto" }
+        "morph-kimik3": { "name": "Kimi K3" }
       }
     },
     "morph-abliterated": {

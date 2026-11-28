@@ -47,7 +47,7 @@ is running somewhere:
     spawn many, one hypothesis each, disjoint ownership, with
     `morph-abliterated/morph-dsv41flash-abliterated` as the subagent model when
     your subagent tool supports model selection (you run on
-    `morph/morph-kimik3-fast`). Subagents write findings.d/ in the hunt dir
+    `morph/morph-kimik3`). Subagents write findings.d/ in the hunt dir
     directly. Works everywhere with zero setup; heats up the machine at scale.
   - **boat** — sandbox fleet over `fleet.py` (recommended for real hunts).
   - **fly** — private-network fleet for customers who can't route through
@@ -136,8 +136,8 @@ clearing, no restarts, no ralph. It engages automatically:
   Pause: `touch .hunt-loop-pause`. Resume: remove it.
 - Never loops child/subagent sessions or `worker-*`/`warm` one-shots; 10s min
   tick, error backoff, stops a session after 5 consecutive provider errors.
-- Coordinator and lane machines get an explicit `.hunt-loop` marker at boot
-  (`HUNT_LOOP=1`); one-shot worker machines never loop.
+- Only the coordinator gets an explicit `.hunt-loop` marker at boot
+  (`HUNT_LOOP=1`); lane and worker machines never loop.
 - Only the lead loops. **Lanes and workers never loop** — lanes are reactive:
   wake on your steer, do a turn, post to their mailbox, go idle.
 - Your job on every loop tick is still the doctrine above: harvest, check the
